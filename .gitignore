@@ -1,4 +1,4 @@
-./bin/*
-./output-files/*
-./output-plots/*
-./output-tables/*
+bin/
+output-files/
+output-plots/
+output-tables/
