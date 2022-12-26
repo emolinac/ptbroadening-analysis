@@ -26,7 +26,14 @@ const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 // Targets
 const int N_targets    = 6;
 const int N_broadening = 3;
+
 TString targets[N_targets] = { "DC" , "DFe" , "DPb" , "C" , "Fe" , "Pb" };
+
+// Visual Settings
+const int targ_colors[N_targets] = { 2 , 4 , 1 , 2 , 4 , 1 };
+const int targ_marker[N_targets] = { 24 , 24 , 24 , 20 , 20 , 20 };
+
+const double shift_x_zh[N_targets] = { -0.015 , 0 , 0.015 , -0.015 , 0 , 0.015 };
 
 // Analysis
 // Integrations of ZH starts at Zh = 0.2
