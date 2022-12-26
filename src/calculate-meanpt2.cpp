@@ -7,6 +7,8 @@
 
 int main(int argc, char *argv[])
 {
+    std::cout<<"Starting averaged squared transverse momentum measurements."<<std::endl;
+
     // Open files
     TFile* fin = new TFile("../output-files/pt2-distributions-bgtreated.root");
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
@@ -172,5 +174,7 @@ int main(int argc, char *argv[])
     // Release memory
     delete fin; delete fout;
 
+    std::cout<<"Finished averaged squared transverse momentum measurements."<<std::endl;
+    
     return 0;
 }

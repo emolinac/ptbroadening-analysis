@@ -5,7 +5,8 @@
 
 int main(int argc, char *argv[])
 {
-    std::cout<<"Start!"<<std::endl;
+    std::cout<<"Starting background reduction process."<<std::endl;
+    
     // Open files
     TFile* fin   = new TFile("../output-files/pt2-distributions.root");
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
@@ -70,5 +71,6 @@ int main(int argc, char *argv[])
     delete fout1;
     delete fout2;
 
+    std::cout<<"Finished background reduction process."<<std::endl;
     return 1;
 }

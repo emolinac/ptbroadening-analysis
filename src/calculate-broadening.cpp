@@ -6,6 +6,8 @@
 
 int main(int argc, char *argv[])
 {
+    std::cout<<"Starting broadening measurements."<<std::endl;
+
     // Open files
     TFile* fin1 = new TFile("../output-files/pt2-distributions-bgtreated.root");
     TFile* fin2 = new TFile("../output-files/results-meanpt2.root");
@@ -158,7 +160,7 @@ int main(int argc, char *argv[])
     // Release memory
     delete fin1; delete fin2; delete fout;
 
-    //delete h_broadening; delete h_broadening_Nu; delete h_broadening_Q2; delete h_broadening_Zh;
+    std::cout<<"Finished broadening measurements."<<std::endl;
 
     return 0;
 }

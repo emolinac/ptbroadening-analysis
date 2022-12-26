@@ -7,6 +7,8 @@
 
 int main(int argc , char *argv[])
 {
+    std::cout<<"Starting phipq integration."<<std::endl;
+    
     // Open files
     TFile* fin  = new TFile("../input-file/phi-distributions.root");
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
@@ -18,7 +20,6 @@ int main(int argc , char *argv[])
     TH1F* h_Phi;
     TH1F* h_Pt2 = new TH1F("","",N_Pt2,Pt2_min,Pt2_max);
 
-    std::cout<<"Starting integrations."<<std::endl;
     fout->cd();
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
@@ -37,14 +38,15 @@ int main(int argc , char *argv[])
                     h_Pt2->Reset();
                 }// End Zh loop
             }// End Nu loop
-        }// End Q2 loop   
-        std::cout<<targets[targ]<<" integration completed!"<<std::endl;
+        }// End Q2 loop
     }// End Targets loop
     
     fin->Close(); delete fin;
     fout->Close(); delete fout;
     delete h_Phi;
     delete h_Pt2;
+
+    std::cout<<"Finished phipq integration."<<std::endl;
 
     return 1;
 }
