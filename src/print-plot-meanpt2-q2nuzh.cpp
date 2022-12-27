@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
     style->SetGridColor(17);
     style->SetPadBorderMode(0);
     style->SetTickLength(0.002,"XY");
+    style->SetTitleFont(62,"XY");
+    style->SetTitleSize(0.04,"XY");
     gROOT->SetStyle("my");
 
     // Open file
@@ -45,7 +47,7 @@ int main(int argc, char *argv[])
                 g[Q2_bin][Nu_bin][targ]->SetMarkerStyle(targ_marker[targ]);
                 g[Q2_bin][Nu_bin][targ]->SetMarkerColor(targ_colors[targ]);
                 g[Q2_bin][Nu_bin][targ]->SetLineColor(targ_colors[targ]);
-                set_xerr_null(g[Q2_bin][Nu_bin][targ]);
+                set_xerr_null(g[Q2_bin][Nu_bin][targ], N_Zh);
                 shift_x(g[Q2_bin][Nu_bin][targ], shift_x_zh[targ]);
             }
         }
@@ -92,7 +94,7 @@ int main(int argc, char *argv[])
 
             mg[Q2_bin][Nu_bin]->Draw("A");
 
-            set_multigraph_properties(mg[Q2_bin][Nu_bin]);
+            set_meanpt2_q2nuzh_multigraph_properties(mg[Q2_bin][Nu_bin]);
 
             // Return to the canvas
             c->cd();
@@ -108,9 +110,9 @@ int main(int argc, char *argv[])
     set_q2_limits_pads(p[0][2],p[1][2],p[2][2],t_q2);
     set_nu_limits_pads(p[0][0],p[0][1],p[0][2],t_nu);
 
-    // Print this fucker!
-    c->Print("../output-plots/test.pdf");
-    c->Print("../output-plots/test.png");
+    // Print
+    c->Print("../output-plots/meanpt2-q2nuzh.pdf");
+    c->Print("../output-plots/meanpt2-q2nuzh.png");
 
     // Close file
     fin->Close();

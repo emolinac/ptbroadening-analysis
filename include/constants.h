@@ -1,6 +1,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <cmath>
 #include "TROOT.h"
 #include "TString.h"
 
@@ -27,13 +28,24 @@ const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 const int N_targets    = 6;
 const int N_broadening = 3;
 
-TString targets[N_targets] = { "DC" , "DFe" , "DPb" , "C" , "Fe" , "Pb" };
+const double A13[N_targets] = { pow(2,1./3.) , pow(2,1./3.) , pow(2,1./3.) , pow(12,1./3.) , pow(55, 1./3.) , pow(208,1./3.) };
+
+TString targets[N_targets]               = { "DC" , "DFe" , "DPb" , "C" , "Fe" , "Pb" };
+TString broadening_targets[N_broadening] = { "C" , "Fe" , "Pb" };
+
 
 // Visual Settings
 const int targ_colors[N_targets] = { 2 , 4 , 1 , 2 , 4 , 1 };
 const int targ_marker[N_targets] = { 24 , 24 , 24 , 20 , 20 , 20 };
 
-const double shift_x_zh[N_targets] = { -0.015 , 0 , 0.015 , -0.015 , 0 , 0.015 };
+const int zh_colors[N_Zh]        = { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8};
+const int zh_marker[N_Zh]        = { 20 , 21 , 22 , 23 , 24 , 25 , 26 , 27};
+
+const double shift_x_q2[N_targets]  = { -0.1   , 0 , 0.1   , -0.1   , 0 , 0.1   };
+const double shift_x_nu[N_targets]  = { -0.1   , 0 , 0.1   , -0.1   , 0 , 0.1   };
+const double shift_x_zh[N_targets]  = { -0.015 , 0 , 0.015 , -0.015 , 0 , 0.015 };
+
+const double shift_x_a13[4] = { -0.075 , -0.025 , 0.025 , 0.075 };
 
 // Analysis
 // Integrations of ZH starts at Zh = 0.2

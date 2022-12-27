@@ -83,6 +83,50 @@ void shift_x(TGraphErrors* g, double shift, int Npoints = N_Zh)
     }
 }
 
+void set_x_a13(TGraphErrors* g, int targ)
+{
+    // Fail-safe
+    if(g==NULL){std::cout<<"No TGraphErrors passed!"<<std::endl; return;}
+
+    // Obtain contents
+    double* content_Y = g->GetY();
+
+    // Obtain errors
+    double* error_Y = g->GetEY();
+
+    g->SetPoint(0, A13[targ] , content_Y[0]);
+    g->SetPointError(0, 0, error_Y[0]);
+
+    return;
+}
+
+void set_zh_to_a13(TGraphErrors* gC, TGraphErrors* gFe, TGraphErrors* gPb,
+                   TGraphErrors* zh, int Zh_bin)
+{
+    // Fail-safe
+    if(gC==NULL||gFe==NULL||gPb==NULL){std::cout<<"No TGraphErrors passed!"<<std::endl; return;}
+
+    // Obtain contents
+    double* gC_Y  = gC->GetY();
+    double* gFe_Y = gFe->GetY();
+    double* gPb_Y = gPb->GetY();
+
+    // Obtain errors
+    double* gC_errY  = gC->GetEY();
+    double* gFe_errY = gFe->GetEY();
+    double* gPb_errY = gPb->GetEY();
+
+    // Set the values to a A13 graphs
+    zh->SetPoint(0, A13[3  ], gC_Y[Zh_bin]);
+    zh->SetPoint(1, A13[3+1], gFe_Y[Zh_bin]);
+    zh->SetPoint(2, A13[3+2], gPb_Y[Zh_bin]);
+
+    // Set the errors to A13 graphs
+    zh->SetPointError(0, 0, gC_errY[Zh_bin]);
+    zh->SetPointError(1, 0, gFe_errY[Zh_bin]);
+    zh->SetPointError(2, 0, gPb_errY[Zh_bin]);
+}
+
 void set_q2_limits_pads(TPad* p1, TPad* p2, TPad* p3, TLatex* t)
 {
     // Fail-safe
@@ -140,19 +184,14 @@ void set_pad_attributes(TPad* p, int Q2_bin, int Nu_bin)
     p->SetGridy(1);
 }
 
-void set_multigraph_properties(TMultiGraph* mg)
+void set_pad_attributes(TPad* p)
 {
-    // X axis
-    mg->GetYaxis()->SetRangeUser(0.04,0.37);
-    mg->GetXaxis()->SetRangeUser(0.11,1.);
-    mg->GetXaxis()->SetTitleOffset(1.1);
-    mg->GetXaxis()->SetTitle("z_{h}");
-    mg->GetXaxis()->CenterTitle();
-
-    // Y axis
-    mg->GetYaxis()->SetTitle("<P^{2}_{T}> (GeV^{2})");
-    mg->GetYaxis()->CenterTitle();
-    mg->GetYaxis()->SetTitleOffset(1.4);
+    p->SetBottomMargin(0.1);
+    p->SetTopMargin(0.1);
+    p->SetLeftMargin(0.12);
+    p->SetRightMargin(0.1);
+    p->SetGridx(1);
+    p->SetGridy(1);
 }
 
 void set_latex_properties(TLatex* t_q2, TLatex* t_nu)
@@ -167,4 +206,169 @@ void set_latex_properties(TLatex* t_q2, TLatex* t_nu)
     t_nu->SetTextAlign(22);
     t_nu->SetTextFont(62);
     t_nu->SetTextSize(0.05);  
+}
+
+void set_meanpt2_q2nuzh_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.11,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.04,0.37);
+    mg->GetYaxis()->SetTitle("<P^{2}_{T}> (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_meanpt2_a13_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.8,A13[N_targets-1]+2);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("A^{1/3}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.04,0.37);
+    mg->GetYaxis()->SetTitle("<P^{2}_{T}> (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_meanpt2_q2_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(Q2_limits[0],Q2_limits[N_Q2]);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("Q^{2}(GeV^{2})");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.04,0.37);
+    mg->GetYaxis()->SetTitle("<P^{2}_{T}> (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_meanpt2_nu_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(Nu_limits[0],Nu_limits[N_Nu]);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("#nu(GeV)");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.04,0.37);
+    mg->GetYaxis()->SetTitle("<P^{2}_{T}> (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_meanpt2_zh_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.11,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.04,0.37);
+    mg->GetYaxis()->SetTitle("<P^{2}_{T}> (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broadening_q2nuzha13_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(1.8,A13[N_targets-1]+2);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("A^{1/3}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.001,0.079);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T} (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broadening_q2nuzh_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.11,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.001,0.079);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T} (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broadening_a13_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(1.8,A13[N_targets-1]+2);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("A^{1/3}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.001,0.059);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T} (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broadening_q2_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(Q2_limits[0],Q2_limits[N_Q2]);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("Q^{2}(GeV^{2})");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.001,0.059);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T} (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broadening_nu_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(Nu_limits[0],Nu_limits[N_Nu]);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("#nu(GeV)");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.001,0.059);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T} (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broadening_zh_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.11,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.001,0.059);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T} (GeV^{2})");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
 }
