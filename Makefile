@@ -10,7 +10,7 @@ ROOTLDFLAGS := $(shell root-config --ldflags)
 ROOTLIBS    := $(shell root-config --libs) -lEG
 
 all: ${BIN}/integrate-phi-q2nuzhpt2 ${BIN}/bgreduction-pt2-q2nuzh ${BIN}/calculate-meanpt2 ${BIN}/calculate-broadening \
-	 ${BIN}/print-plot-meanpt2-q2nuzh ${BIN}/print-plot-meanpt2-q2-nu-zh ${BIN}/print-plot-broadening-q2nuzh \
+	 ${BIN}/print-plot-meanpt2-q2nuzh ${BIN}/print-plot-meanpt2-q2-nu-zh-a13 ${BIN}/print-plot-broadening-q2nuzh \
 	 ${BIN}/print-plot-broadening-q2-nu-zh-a13 ${BIN}/print-plot-broadening-q2nuzha13
 
 ${BIN}/integrate-phi-q2nuzhpt2: ${SRC}/integrate-phi-q2nuzhpt2.cpp
@@ -28,8 +28,8 @@ ${BIN}/calculate-broadening: ${SRC}/calculate-broadening.cpp
 ${BIN}/print-plot-meanpt2-q2nuzh: ${SRC}/print-plot-meanpt2-q2nuzh.cpp
 	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/print-plot-meanpt2-q2nuzh.cpp -o ${BIN}/print-plot-meanpt2-q2nuzh ${ROOTLIBS}
 
-${BIN}/print-plot-meanpt2-q2-nu-zh: ${SRC}/print-plot-meanpt2-q2-nu-zh.cpp
-	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/print-plot-meanpt2-q2-nu-zh.cpp -o ${BIN}/print-plot-meanpt2-q2-nu-zh ${ROOTLIBS}
+${BIN}/print-plot-meanpt2-q2-nu-zh-a13: ${SRC}/print-plot-meanpt2-q2-nu-zh-a13.cpp
+	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/print-plot-meanpt2-q2-nu-zh-a13.cpp -o ${BIN}/print-plot-meanpt2-q2-nu-zh-a13 ${ROOTLIBS}
 
 ${BIN}/print-plot-broadening-q2nuzh: ${SRC}/print-plot-broadening-q2nuzh.cpp
 	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/print-plot-broadening-q2nuzh.cpp -o ${BIN}/print-plot-broadening-q2nuzh ${ROOTLIBS}

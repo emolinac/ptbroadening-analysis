@@ -28,6 +28,9 @@ cd ./bin
 # Calculate broadening
 ./calculate-broadening
 
-# <Pt2> Plots
-
-# <Pt2> Tables
+# Plots
+./print-plot-meanpt2-q2nuzh
+./print-plot-meanpt2-q2-nu-zh-a13
+./print-plot-broadening-q2nuzh
+./print-plot-broadening-q2nuzha13
+./print-plot-broadening-q2-nu-zh-a13
