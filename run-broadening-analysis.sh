@@ -14,6 +14,14 @@ then
     mkdir ./bin
 fi
 
+if [[ ! -d ./input-file ]]
+then
+    echo "Input directory does not exist. Making input directory ..."
+    mkdir ./input-file
+    echo "Put a file named phi-distributions.root inside this folder; then, execute this script again!"
+    exit 1
+fi
+
 # Compile the software
 make
 
