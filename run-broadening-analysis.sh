@@ -14,6 +14,9 @@ then
     mkdir ./bin
 fi
 
+# Compile the software
+make
+
 cd ./bin
 
 # Integration of PhiPQ distributions
