@@ -3,8 +3,20 @@
 
 #include <cmath>
 #include "TROOT.h"
-#include "TString.h"
 
+// Names
+std::string input_dir   = "../input-file/";
+std::string results_dir = "../output-files/";
+std::string plots_dir   = "../output-plots/":
+std::string tables_dir  = "../output-tables/":
+
+std::string histo_data  = "data_";
+std::string histo_accf  = "accf_";
+std::string histo_acc   = "acc_data_";
+std::string histo_accrc = "accrc_data_";
+
+std::string file_name_phi = "phi-distributions.root";
+std::string file_name_pt2 = "pt2-distributions.root";
 // Binning configuration
 const int N_Q2  = 3;
 const int N_Nu  = 3;
@@ -24,14 +36,17 @@ const float Phi_min   = -180.;
 const float Phi_max   =  180.;
 const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 
-// Targets
+// Integrations of ZH starts at Zh = 0.2
+const int Zh_cutoff = 2;
+
+// Targets information
 const int N_targets    = 6;
 const int N_broadening = 3;
 
 const double A13[N_targets] = { pow(2,1./3.) , pow(2,1./3.) , pow(2,1./3.) , pow(12,1./3.) , pow(55, 1./3.) , pow(208,1./3.) };
 
-TString targets[N_targets]               = { "DC" , "DFe" , "DPb" , "C" , "Fe" , "Pb" };
-TString broadening_targets[N_broadening] = { "C" , "Fe" , "Pb" };
+std::string targets[N_targets]               = { "DC" , "DFe" , "DPb" , "C" , "Fe" , "Pb" };
+std::string broadening_targets[N_broadening] = { "C" , "Fe" , "Pb" };
 
 
 // Visual Settings
@@ -46,9 +61,5 @@ const double shift_x_nu[N_targets]  = { -0.1   , 0 , 0.1   , -0.1   , 0 , 0.1   
 const double shift_x_zh[N_targets]  = { -0.015 , 0 , 0.015 , -0.015 , 0 , 0.015 };
 
 const double shift_x_a13[4] = { -0.075 , -0.025 , 0.025 , 0.075 };
-
-// Analysis
-// Integrations of ZH starts at Zh = 0.2
-const int Zh_cutoff = 2;
 
 #endif /* CONSTANTS_H */

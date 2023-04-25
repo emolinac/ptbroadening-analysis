@@ -1,4 +1,5 @@
 #include "TH1F.h"
+#include "constants.h"
 
 // Returns 1 if the histogram is empty.
 int empty_histo(TH1F* h)
@@ -40,4 +41,24 @@ void set_mean_and_meanerror(TH1F* h_Pt2, TH1F* h_meanPt2, int bin)
     h_meanPt2->SetBinError(bin, h_Pt2->GetMeanError());
 
     return;
+}
+
+std::string get_accf_histo_name(int target_index int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
+{
+    return histo_accf+targets[target_index]+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
+}
+
+std::string get_data_histo_name(int target_index int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
+{
+    return histo_data+targets[target_index]+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
+}
+
+std::string get_acccorr_histo_name(int target_index int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
+{
+    return histo_acc+targets[target_index]+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
+}
+
+std::string get_accrccorr_histo_name(int target_index int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
+{
+    return histo_accrc+targets[target_index]+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
 }
