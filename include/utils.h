@@ -58,7 +58,7 @@ std::string get_data_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh
 
 std::string get_acccorr_Phi_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
 {
-    return histo_acc+targets[target_index]+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
+    return histo_acc+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
 }
 
 std::string get_accrccorr_Phi_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
