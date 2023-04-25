@@ -2,18 +2,19 @@
 #include "TFile.h"
 #include "constants.h"
 #include "bgreduction.h"
+#include "utils.h"
 
 int main(int argc, char *argv[])
 {
     std::cout<<"Starting background reduction process."<<std::endl;
     
     // Open files
-    TFile* fin   = new TFile("../output-files/pt2-distributions.root");
+    TFile* fin   = new TFile((results_dir+file_name_pt2).c_str());
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
 
-    TFile* fout1 = new TFile("../output-files/pt2-distributions-bgtreated.root","RECREATE");
+    TFile* fout1 = new TFile((results_dir+file_name_pt2_bg).c_str(),"RECREATE");
     gROOT->cd();
-    TFile* fout2 = new TFile("../output-files/pt2-distributions-fits.root","RECREATE");
+    TFile* fout2 = new TFile((results_dir+file_name_pt2_fits).c_str(),"RECREATE");
     gROOT->cd();
 
     // Initialize histos
@@ -37,9 +38,9 @@ int main(int argc, char *argv[])
             {
                 for(int Zh_bin = 0 ; Zh_bin < N_Zh ; Zh_bin++)
                 {
-                    h_Pt2[0] = (TH1F*) fin->Get(Form("corr_data_Pt2_" + targets[targ] + "_%i%i%i", Q2_bin, Nu_bin, Zh_bin));
-                    h_Pt2[1] = (TH1F*) fin->Get(Form("corr_data_Pt2_" + targets[targ] + "_%i%i%i", Q2_bin, Nu_bin, Zh_bin));
-                    h_Pt2[2] = (TH1F*) fin->Get(Form("corr_data_Pt2_" + targets[targ] + "_%i%i%i", Q2_bin, Nu_bin, Zh_bin));
+                    h_Pt2[0] = (TH1F*) fin->Get(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
+                    h_Pt2[1] = (TH1F*) fin->Get(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
+                    h_Pt2[2] = (TH1F*) fin->Get(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
 
                     if(Zh_bin>=4)
                     {
@@ -55,9 +56,9 @@ int main(int argc, char *argv[])
                     }
 
                     fout1->cd();
-                    h_Pt2[0]->Write(Form("Pt2_" + targets[targ] + "_%i%i%i", Q2_bin, Nu_bin, Zh_bin));
-                    h_Pt2[1]->Write(Form("Pt2_" + targets[targ] + "_%i%i%i_clean", Q2_bin, Nu_bin, Zh_bin));
-                    h_Pt2[2]->Write(Form("Pt2_" + targets[targ] + "_%i%i%i_clean_interpolated", Q2_bin, Nu_bin, Zh_bin));
+                    h_Pt2[0]->Write(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
+                    h_Pt2[1]->Write(get_acccorr_clean_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
+                    h_Pt2[2]->Write(get_acccorr_cleaninterpolated_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
                     gROOT->cd();
                 }// End of Zh loop  
             }// End of Nu loop

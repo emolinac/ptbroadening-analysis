@@ -7,6 +7,7 @@
 #include "TPad.h"
 #include "constants.h"
 #include "plots.h"
+#include "utils.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
     gROOT->SetStyle("my");
 
     // Open file
-    TFile* fin = new TFile("../output-files/results-meanpt2.root");
+    TFile* fin = new TFile((results_dir+file_name_meanpt2).c_str());
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
 
     // Create a canvas
@@ -35,10 +36,10 @@ int main(int argc, char *argv[])
     // Obtain histos and graphs
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
-        h[targ]    = (TH1F*) fin->Get("meanPt2_"    + targets[targ]);
-        h_Q2[targ] = (TH1F*) fin->Get("meanPt2_Q2_" + targets[targ]);
-        h_Nu[targ] = (TH1F*) fin->Get("meanPt2_Nu_" + targets[targ]);
-        h_Zh[targ] = (TH1F*) fin->Get("meanPt2_Zh_" + targets[targ]);
+        h[targ]    = (TH1F*) fin->Get(get_meanPt2_histo_name(targ).c_str());
+        h_Q2[targ] = (TH1F*) fin->Get(get_meanPt2_Q2_histo_name(targ).c_str());
+        h_Nu[targ] = (TH1F*) fin->Get(get_meanPt2_Nu_histo_name(targ).c_str());
+        h_Zh[targ] = (TH1F*) fin->Get(get_meanPt2_Zh_histo_name(targ).c_str());
 
         g[targ]    = new TGraphErrors(1);
         g_Q2[targ] = new TGraphErrors(N_Q2);

@@ -10,15 +10,15 @@ int main(int argc, char *argv[])
     std::cout<<"Starting averaged squared transverse momentum measurements."<<std::endl;
 
     // Open files
-    TFile* fin = new TFile("../output-files/pt2-distributions-bgtreated.root");
+    TFile* fin = new TFile((results_dir+file_name_pt2_bg).c_str());
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
 
-    TFile* fout = new TFile("../output-files/results-meanpt2.root","RECREATE");
+    TFile* fout = new TFile((results_dir+file_name_meanpt2).c_str(),"RECREATE");
     gROOT->cd();
 
     // Instrumental histos
-    TH1F* h_Pt2_integral =  new TH1F("","",N_Pt2,Pt2_min,Pt2_max);
-    TH1F* h_Pt2          =  new TH1F("","",N_Pt2,Pt2_min,Pt2_max);
+    TH1F* h_Pt2_integral = new TH1F("","",N_Pt2,Pt2_min,Pt2_max);
+    TH1F* h_Pt2          = new TH1F("","",N_Pt2,Pt2_min,Pt2_max);
     TH1F* h_Pt2_vars[3];
 
     h_Pt2_integral->Sumw2();
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
         // Write
         fout->cd();
-        h_meanPt2[targ]->Write("meanPt2_" + targets[targ]);
+        h_meanPt2[targ]->Write(get_meanPt2_histo_name(targ).c_str());
         gROOT->cd();
 
         // Reset
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
         
         // Write
         fout->cd();
-        h_meanPt2_Q2[targ]->Write("meanPt2_Q2_" + targets[targ]);
+        h_meanPt2_Q2[targ]->Write(get_meanPt2_Q2_histo_name(targ).c_str());
         gROOT->cd();
     }
 
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
         
         // Write
         fout->cd();
-        h_meanPt2_Nu[targ]->Write("meanPt2_Nu_" + targets[targ]);
+        h_meanPt2_Nu[targ]->Write(get_meanPt2_Nu_histo_name(targ).c_str());
         gROOT->cd();
     }
 
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
         
         // Write
         fout->cd();
-        h_meanPt2_Zh[targ]->Write("meanPt2_Zh_" + targets[targ]);
+        h_meanPt2_Zh[targ]->Write(get_meanPt2_Zh_histo_name(targ).c_str());
         gROOT->cd();
     }
 
@@ -142,9 +142,9 @@ int main(int argc, char *argv[])
                 for(int Zh_bin = 0 ; Zh_bin < N_Zh ; Zh_bin++)
                 {
                     // Obtain histos
-                    h_Pt2_vars[0] = (TH1F*) fin->Get(Form("Pt2_" + targets[targ] + "_%i%i%i", Q2_bin, Nu_bin, Zh_bin));
-                    h_Pt2_vars[1] = (TH1F*) fin->Get(Form("Pt2_" + targets[targ] + "_%i%i%i_clean", Q2_bin, Nu_bin, Zh_bin));
-                    h_Pt2_vars[2] = (TH1F*) fin->Get(Form("Pt2_" + targets[targ] + "_%i%i%i_clean_interpolated", Q2_bin, Nu_bin, Zh_bin));
+                    h_Pt2_vars[0] = (TH1F*) fin->Get(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
+                    h_Pt2_vars[1] = (TH1F*) fin->Get(get_acccorr_clean_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
+                    h_Pt2_vars[2] = (TH1F*) fin->Get(get_acccorr_cleaninterpolated_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
 
                     // Assign content and error
                     set_mean_and_meanerror(h_Pt2_vars[0], h_meanPt2_Q2Nu[targ][0], Zh_bin + 1);
@@ -154,9 +154,9 @@ int main(int argc, char *argv[])
                 
                 // Write the histos
                 fout->cd();
-                h_meanPt2_Q2Nu[targ][0]->Write(Form("meanPt2_Zh_" + targets[targ] + "_%i%i", Q2_bin, Nu_bin));
-                h_meanPt2_Q2Nu[targ][1]->Write(Form("meanPt2_Zh_" + targets[targ] + "_%i%i_clean", Q2_bin, Nu_bin));
-                h_meanPt2_Q2Nu[targ][2]->Write(Form("meanPt2_Zh_" + targets[targ] + "_%i%i_clean_interpolated", Q2_bin, Nu_bin));
+                h_meanPt2_Q2Nu[targ][0]->Write(get_meanPt2_Zh_histo_name(targ,Q2_bin,Nu_bin).c_str());
+                h_meanPt2_Q2Nu[targ][1]->Write(get_clean_meanPt2_Zh_histo_name(targ,Q2_bin,Nu_bin).c_str());
+                h_meanPt2_Q2Nu[targ][2]->Write(get_cleaninterpolated_meanPt2_Zh_histo_name(targ,Q2_bin,Nu_bin).c_str());
                 gROOT->cd();
 
                 // Reset histos

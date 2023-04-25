@@ -4,16 +4,17 @@
 #include "TH1F.h"
 #include "integrals.h"
 #include "constants.h"
+#include "utils.h"
 
 int main(int argc , char *argv[])
 {
     std::cout<<"Starting phipq integration."<<std::endl;
     
     // Open files
-    TFile* fin  = new TFile("../input-file/phi-distributions.root");
+    TFile* fin  = new TFile((input_dir+file_name_phi).c_str());
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
 
-    TFile* fout = new TFile("../output-files/pt2-distributions.root","RECREATE");
+    TFile* fout = new TFile((results_dir+file_name_pt2).c_str(),"RECREATE");
     gROOT->cd();
 
     // Integrate through all bins and targets
@@ -31,18 +32,23 @@ int main(int argc , char *argv[])
                 {
                     for(int Pt2_bin = 0 ; Pt2_bin < N_Pt2 ; Pt2_bin++)
                     {
-                        h_Phi = (TH1F*) fin->Get(Form("acc_data_"+targets[targ]+"_%i%i%i%i",Q2_bin,Nu_bin,Zh_bin,Pt2_bin));
+                        h_Phi = (TH1F*) fin->Get(get_acccorr_Phi_histo_name(targ,Q2_bin,Nu_bin,Zh_bin,Pt2_bin).c_str());
+                        if(h_Phi==NULL) continue;
                         phi_integration(h_Phi, h_Pt2, Pt2_bin);
                     }// End Pt2 loop
-                    h_Pt2->Write(Form("corr_data_Pt2_"+targets[targ]+"_%i%i%i",Q2_bin,Nu_bin,Zh_bin));
+
+                    h_Pt2->Write(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
                     h_Pt2->Reset();
                 }// End Zh loop
             }// End Nu loop
         }// End Q2 loop
     }// End Targets loop
     
-    fin->Close(); delete fin;
-    fout->Close(); delete fout;
+    fin->Close(); 
+    fout->Close();
+    
+    delete fin;
+    delete fout;
     delete h_Phi;
     delete h_Pt2;
 
