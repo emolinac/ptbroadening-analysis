@@ -7,16 +7,21 @@
 // Names
 std::string input_dir   = "../input-file/";
 std::string results_dir = "../output-files/";
-std::string plots_dir   = "../output-plots/":
-std::string tables_dir  = "../output-tables/":
+std::string plots_dir   = "../output-plots/";
+std::string tables_dir  = "../output-tables/";
 
 std::string histo_data  = "data_";
 std::string histo_accf  = "accf_";
 std::string histo_acc   = "acc_data_";
 std::string histo_accrc = "accrc_data_";
 
-std::string file_name_phi = "phi-distributions.root";
-std::string file_name_pt2 = "pt2-distributions.root";
+std::string file_name_phi      = "phi-distributions.root";
+std::string file_name_pt2      = "pt2-distributions.root";
+std::string file_name_pt2_bg   = "pt2-distributions-bgtreated.root";
+std::string file_name_pt2_fits = "pt2-distributions-fits.root";
+std::string file_name_meanpt2  = "results-meanpt2.root";
+std::string file_name_broad    = "results-broadening.root";
+
 // Binning configuration
 const int N_Q2  = 3;
 const int N_Nu  = 3;

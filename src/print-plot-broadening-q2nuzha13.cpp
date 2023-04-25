@@ -7,6 +7,7 @@
 #include "TPad.h"
 #include "constants.h"
 #include "plots.h"
+#include "utils.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
     gROOT->SetStyle("my");
 
     // Open file
-    TFile* fin = new TFile("../output-files/results-broadening.root");
+    TFile* fin = new TFile((results_dir+file_name_broad).c_str());
     if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
 
     // Create a canvas
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
         {
             for(int targ = 0 ; targ < N_broadening ; targ++)
             {
-                h[Q2_bin][Nu_bin][targ] = (TH1F*) fin->Get(Form("broadening_Zh_" + broadening_targets[targ] + "_%i%i", Q2_bin, Nu_bin));
+                h[Q2_bin][Nu_bin][targ] = (TH1F*) fin->Get(get_broadening_Zh_histo_name(targ, Q2_bin, Nu_bin).c_str());
 
                 g[Q2_bin][Nu_bin][targ] = new TGraphErrors(N_Zh);
 

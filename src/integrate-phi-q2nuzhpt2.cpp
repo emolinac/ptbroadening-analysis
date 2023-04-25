@@ -32,11 +32,12 @@ int main(int argc , char *argv[])
                 {
                     for(int Pt2_bin = 0 ; Pt2_bin < N_Pt2 ; Pt2_bin++)
                     {
-                        h_Phi = (TH1F*) fin->Get(get_acccorr_histo_name(targ,Q2_bin,Nu_bin,Zh_bin,Pt2_bin));
+                        h_Phi = (TH1F*) fin->Get(get_acccorr_Phi_histo_name(targ,Q2_bin,Nu_bin,Zh_bin,Pt2_bin).c_str());
                         if(h_Phi==NULL) continue;
                         phi_integration(h_Phi, h_Pt2, Pt2_bin);
                     }// End Pt2 loop
-                    h_Pt2->Write(Form("corr_data_Pt2_"+targets[targ]+"_%i%i%i",Q2_bin,Nu_bin,Zh_bin));
+
+                    h_Pt2->Write(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
                     h_Pt2->Reset();
                 }// End Zh loop
             }// End Nu loop
