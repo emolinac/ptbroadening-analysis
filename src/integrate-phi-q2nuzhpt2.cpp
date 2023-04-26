@@ -2,6 +2,7 @@
 #include "TROOT.h"
 #include "TFile.h"
 #include "TH1F.h"
+#include "TSystem.h"
 #include "integrals.h"
 #include "constants.h"
 #include "utils.h"
@@ -11,9 +12,9 @@ int main(int argc , char *argv[])
     std::cout<<"Starting phipq integration."<<std::endl;
     
     // Open files
+    if(gSystem->AccessPathName((input_dir+file_name_phi).c_str())){std::cout<<"No phi distributions file found!"<<std::endl; return 1;}
     TFile* fin  = new TFile((input_dir+file_name_phi).c_str());
-    if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
-
+    
     TFile* fout = new TFile((results_dir+file_name_pt2).c_str(),"RECREATE");
     gROOT->cd();
 
