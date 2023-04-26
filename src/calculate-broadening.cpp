@@ -10,10 +10,11 @@ int main(int argc, char *argv[])
     std::cout<<"Starting broadening measurements."<<std::endl;
 
     // Open files
+    if(!check_file_existence(results_dir, file_name_pt2_bg)) return 1;
     TFile* fin1 = new TFile((results_dir+file_name_pt2_bg).c_str());
+    if(!check_file_existence(results_dir, file_name_meanpt2)) return 1;
     TFile* fin2 = new TFile((results_dir+file_name_meanpt2).c_str());
-    if(fin1==NULL||fin2==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
-
+    
     TFile* fout = new TFile((results_dir+file_name_broad).c_str(),"RECREATE");
     gROOT->cd();
 

@@ -10,9 +10,9 @@ int main(int argc, char *argv[])
     std::cout<<"Starting averaged squared transverse momentum measurements."<<std::endl;
 
     // Open files
+    if(!check_file_existence(results_dir, file_name_pt2_bg)) return 1;
     TFile* fin = new TFile((results_dir+file_name_pt2_bg).c_str());
-    if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
-
+    
     TFile* fout = new TFile((results_dir+file_name_meanpt2).c_str(),"RECREATE");
     gROOT->cd();
 
