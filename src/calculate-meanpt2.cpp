@@ -24,47 +24,91 @@ int main(int argc, char *argv[])
     h_Pt2_integral->Sumw2();
     
     // Results histos
-    TH1F* h_meanPt2[N_targets];
-    TH1F* h_meanPt2_Q2[N_targets];
-    TH1F* h_meanPt2_Nu[N_targets];
-    TH1F* h_meanPt2_Zh[N_targets];
-    TH1F* h_meanPt2_Q2Nu[N_targets][3];
+    TH1F* h_meanPt2[3][N_targets];
+    TH1F* h_meanPt2_Q2[3][N_targets];
+    TH1F* h_meanPt2_Nu[3][N_targets];
+    TH1F* h_meanPt2_Zh[3][N_targets];
+    TH1F* h_meanPt2_Q2Nu[3][N_targets][3];
 
-    // meanPt2 (used for A13 dependence)
+    // Uncorrected meanPt2 (used for A13 dependence)
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
         // Define histo
-        h_meanPt2[targ] = new TH1F("","",1,0,1);
+        h_meanPt2[0][targ] = new TH1F("","",1,0,1);
+
         q2nuzh_integration(h_Pt2_integral, h_Pt2, fin, targ);
 
         // Assign content and error
-        h_meanPt2[targ]->SetBinContent(1,h_Pt2_integral->GetMean());
-        h_meanPt2[targ]->SetBinError(1,h_Pt2_integral->GetMeanError());
+        h_meanPt2[0][targ]->SetBinContent(1,h_Pt2_integral->GetMean());
+        h_meanPt2[0][targ]->SetBinError(1,h_Pt2_integral->GetMeanError());
 
         // Write
         fout->cd();
-        h_meanPt2[targ]->Write(get_meanPt2_histo_name(targ).c_str());
+        h_meanPt2[0][targ]->Write(get_meanPt2_histo_name(targ).c_str());
         gROOT->cd();
 
         // Reset
         h_Pt2_integral->Reset();
         h_Pt2->Reset();
-
     }
-    
-    // meanPt2(Q2)
+
+    // Acceptance-corrected meanPt2 (used for A13 dependence)
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
         // Define histo
-        h_meanPt2_Q2[targ] = new TH1F("","",N_Q2,Q2_limits);
+        h_meanPt2[1][targ] = new TH1F("","",1,0,1);
+
+        q2nuzh_acc_integration(h_Pt2_integral, h_Pt2, fin, targ);
+
+        // Assign content and error
+        h_meanPt2[1][targ]->SetBinContent(1,h_Pt2_integral->GetMean());
+        h_meanPt2[1][targ]->SetBinError(1,h_Pt2_integral->GetMeanError());
+
+        // Write
+        fout->cd();
+        h_meanPt2[1][targ]->Write(get_acc_meanPt2_histo_name(targ).c_str());
+        gROOT->cd();
+
+        // Reset
+        h_Pt2_integral->Reset();
+        h_Pt2->Reset();
+    }
+
+    // Acceptance-Rad-corrected meanPt2 (used for A13 dependence)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2[2][targ] = new TH1F("","",1,0,1);
+
+        q2nuzh_accrc_integration(h_Pt2_integral, h_Pt2, fin, targ);
+
+        // Assign content and error
+        h_meanPt2[2][targ]->SetBinContent(1,h_Pt2_integral->GetMean());
+        h_meanPt2[2][targ]->SetBinError(1,h_Pt2_integral->GetMeanError());
+
+        // Write
+        fout->cd();
+        h_meanPt2[2][targ]->Write(get_accrc_meanPt2_histo_name(targ).c_str());
+        gROOT->cd();
+
+        // Reset
+        h_Pt2_integral->Reset();
+        h_Pt2->Reset();
+    }
+    
+    // Uncorrected meanPt2(Q2)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2_Q2[0][targ] = new TH1F("","",N_Q2,Q2_limits);
         
         for(int Q2_bin = 0 ; Q2_bin < N_Q2 ; Q2_bin++)
         {
             nuzh_integration(h_Pt2_integral, h_Pt2, fin, targ, Q2_bin);
 
             // Assign content and error
-            h_meanPt2_Q2[targ]->SetBinContent(Q2_bin+1,h_Pt2_integral->GetMean());
-            h_meanPt2_Q2[targ]->SetBinError(Q2_bin+1,h_Pt2_integral->GetMeanError());
+            h_meanPt2_Q2[0][targ]->SetBinContent(Q2_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Q2[0][targ]->SetBinError(Q2_bin+1,h_Pt2_integral->GetMeanError());
 
             // Reset
             h_Pt2_integral->Reset();
@@ -73,23 +117,73 @@ int main(int argc, char *argv[])
         
         // Write
         fout->cd();
-        h_meanPt2_Q2[targ]->Write(get_meanPt2_Q2_histo_name(targ).c_str());
+        h_meanPt2_Q2[0][targ]->Write(get_meanPt2_Q2_histo_name(targ).c_str());
         gROOT->cd();
     }
 
-    // meanPt2(Nu)
+    // Acceptance-corrected meanPt2(Q2)
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
         // Define histo
-        h_meanPt2_Nu[targ] = new TH1F("","",N_Nu,Nu_limits);
+        h_meanPt2_Q2[1][targ] = new TH1F("","",N_Q2,Q2_limits);
+        
+        for(int Q2_bin = 0 ; Q2_bin < N_Q2 ; Q2_bin++)
+        {
+            nuzh_acc_integration(h_Pt2_integral, h_Pt2, fin, targ, Q2_bin);
+
+            // Assign content and error
+            h_meanPt2_Q2[1][targ]->SetBinContent(Q2_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Q2[1][targ]->SetBinError(Q2_bin+1,h_Pt2_integral->GetMeanError());
+
+            // Reset
+            h_Pt2_integral->Reset();
+            h_Pt2->Reset();
+        }
+        
+        // Write
+        fout->cd();
+        h_meanPt2_Q2[1][targ]->Write(get_acc_meanPt2_Q2_histo_name(targ).c_str());
+        gROOT->cd();
+    }
+
+    // Acceptance-Rad-corrected meanPt2(Q2)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2_Q2[2][targ] = new TH1F("","",N_Q2,Q2_limits);
+        
+        for(int Q2_bin = 0 ; Q2_bin < N_Q2 ; Q2_bin++)
+        {
+            nuzh_accrc_integration(h_Pt2_integral, h_Pt2, fin, targ, Q2_bin);
+
+            // Assign content and error
+            h_meanPt2_Q2[2][targ]->SetBinContent(Q2_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Q2[2][targ]->SetBinError(Q2_bin+1,h_Pt2_integral->GetMeanError());
+
+            // Reset
+            h_Pt2_integral->Reset();
+            h_Pt2->Reset();
+        }
+        
+        // Write
+        fout->cd();
+        h_meanPt2_Q2[2][targ]->Write(get_accrc_meanPt2_Q2_histo_name(targ).c_str());
+        gROOT->cd();
+    }
+
+    // Uncorrected meanPt2(Nu)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2_Nu[0][targ] = new TH1F("","",N_Nu,Nu_limits);
         
         for(int Nu_bin = 0 ; Nu_bin < N_Nu ; Nu_bin++)
         {
             q2zh_integration(h_Pt2_integral, h_Pt2, fin, targ, Nu_bin);
 
             // Assign content and error
-            h_meanPt2_Nu[targ]->SetBinContent(Nu_bin+1,h_Pt2_integral->GetMean());
-            h_meanPt2_Nu[targ]->SetBinError(Nu_bin+1,h_Pt2_integral->GetMeanError());
+            h_meanPt2_Nu[0][targ]->SetBinContent(Nu_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Nu[0][targ]->SetBinError(Nu_bin+1,h_Pt2_integral->GetMeanError());
 
             // Reset
             h_Pt2_integral->Reset();
@@ -98,23 +192,73 @@ int main(int argc, char *argv[])
         
         // Write
         fout->cd();
-        h_meanPt2_Nu[targ]->Write(get_meanPt2_Nu_histo_name(targ).c_str());
+        h_meanPt2_Nu[0][targ]->Write(get_meanPt2_Nu_histo_name(targ).c_str());
         gROOT->cd();
     }
 
-    // meanPt2(Zh)
+    // Acceptance-corrected meanPt2(Nu)
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
         // Define histo
-        h_meanPt2_Zh[targ] = new TH1F("","",N_Zh,Zh_limits);
+        h_meanPt2_Nu[1][targ] = new TH1F("","",N_Nu,Nu_limits);
+        
+        for(int Nu_bin = 0 ; Nu_bin < N_Nu ; Nu_bin++)
+        {
+            q2zh_acc_integration(h_Pt2_integral, h_Pt2, fin, targ, Nu_bin);
+
+            // Assign content and error
+            h_meanPt2_Nu[1][targ]->SetBinContent(Nu_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Nu[1][targ]->SetBinError(Nu_bin+1,h_Pt2_integral->GetMeanError());
+
+            // Reset
+            h_Pt2_integral->Reset();
+            h_Pt2->Reset();
+        }
+        
+        // Write
+        fout->cd();
+        h_meanPt2_Nu[1][targ]->Write(get_acc_meanPt2_Nu_histo_name(targ).c_str());
+        gROOT->cd();
+    }
+
+    // Acceptance-Rad-corrected meanPt2(Nu)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2_Nu[2][targ] = new TH1F("","",N_Nu,Nu_limits);
+        
+        for(int Nu_bin = 0 ; Nu_bin < N_Nu ; Nu_bin++)
+        {
+            q2zh_accrc_integration(h_Pt2_integral, h_Pt2, fin, targ, Nu_bin);
+
+            // Assign content and error
+            h_meanPt2_Nu[2][targ]->SetBinContent(Nu_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Nu[2][targ]->SetBinError(Nu_bin+1,h_Pt2_integral->GetMeanError());
+
+            // Reset
+            h_Pt2_integral->Reset();
+            h_Pt2->Reset();
+        }
+        
+        // Write
+        fout->cd();
+        h_meanPt2_Nu[2][targ]->Write(get_accrc_meanPt2_Nu_histo_name(targ).c_str());
+        gROOT->cd();
+    }
+
+    // Uncorrected meanPt2(Zh)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2_Zh[0][targ] = new TH1F("","",N_Zh,Zh_limits);
         
         for(int Zh_bin = 0 ; Zh_bin < N_Zh ; Zh_bin++)
         {
             q2nu_integration(h_Pt2_integral, h_Pt2, fin, targ, Zh_bin);
 
             // Assign content and error
-            h_meanPt2_Zh[targ]->SetBinContent(Zh_bin+1,h_Pt2_integral->GetMean());
-            h_meanPt2_Zh[targ]->SetBinError(Zh_bin+1,h_Pt2_integral->GetMeanError());
+            h_meanPt2_Zh[0][targ]->SetBinContent(Zh_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Zh[0][targ]->SetBinError(Zh_bin+1,h_Pt2_integral->GetMeanError());
 
             // Reset
             h_Pt2_integral->Reset();
@@ -123,7 +267,57 @@ int main(int argc, char *argv[])
         
         // Write
         fout->cd();
-        h_meanPt2_Zh[targ]->Write(get_meanPt2_Zh_histo_name(targ).c_str());
+        h_meanPt2_Zh[0][targ]->Write(get_meanPt2_Zh_histo_name(targ).c_str());
+        gROOT->cd();
+    }
+
+    // Acceptance-corrected meanPt2(Zh)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2_Zh[1][targ] = new TH1F("","",N_Zh,Zh_limits);
+        
+        for(int Zh_bin = 0 ; Zh_bin < N_Zh ; Zh_bin++)
+        {
+            q2nu_acc_integration(h_Pt2_integral, h_Pt2, fin, targ, Zh_bin);
+
+            // Assign content and error
+            h_meanPt2_Zh[1][targ]->SetBinContent(Zh_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Zh[1][targ]->SetBinError(Zh_bin+1,h_Pt2_integral->GetMeanError());
+
+            // Reset
+            h_Pt2_integral->Reset();
+            h_Pt2->Reset();
+        }
+        
+        // Write
+        fout->cd();
+        h_meanPt2_Zh[1][targ]->Write(get_acc_meanPt2_Zh_histo_name(targ).c_str());
+        gROOT->cd();
+    }
+
+    // Acceptance-Rad-corrected meanPt2(Zh)
+    for(int targ = 0 ; targ < N_targets ; targ++)
+    {
+        // Define histo
+        h_meanPt2_Zh[2][targ] = new TH1F("","",N_Zh,Zh_limits);
+        
+        for(int Zh_bin = 0 ; Zh_bin < N_Zh ; Zh_bin++)
+        {
+            q2nu_accrc_integration(h_Pt2_integral, h_Pt2, fin, targ, Zh_bin);
+
+            // Assign content and error
+            h_meanPt2_Zh[2][targ]->SetBinContent(Zh_bin+1,h_Pt2_integral->GetMean());
+            h_meanPt2_Zh[2][targ]->SetBinError(Zh_bin+1,h_Pt2_integral->GetMeanError());
+
+            // Reset
+            h_Pt2_integral->Reset();
+            h_Pt2->Reset();
+        }
+        
+        // Write
+        fout->cd();
+        h_meanPt2_Zh[2][targ]->Write(get_accrc_meanPt2_Zh_histo_name(targ).c_str());
         gROOT->cd();
     }
 

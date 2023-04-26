@@ -67,7 +67,7 @@ std::string get_accf_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh
 
 std::string get_data_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
 {
-    return histo_data+targets[target_index]+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
+    return histo_data+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
 }
 
 std::string get_acccorr_Phi_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
@@ -77,7 +77,22 @@ std::string get_acccorr_Phi_histo_name(int target_index, int Q2_bin, int Nu_bin,
 
 std::string get_accrccorr_Phi_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
 {
-    return histo_accrc+targets[target_index]+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
+    return histo_accrc+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
+}
+
+std::string get_Pt2_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin)
+{
+    return histo_data+"Pt2_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin);
+}
+
+std::string get_clean_Pt2_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin)
+{
+    return histo_data+"Pt2_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+"_clean";
+}
+
+std::string get_cleaninterpolated_Pt2_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin)
+{
+    return histo_data+"Pt2_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+"_clean_interpolated";
 }
 
 std::string get_acccorr_Pt2_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin)
@@ -109,6 +124,8 @@ std::string get_accrccorr_cleaninterpolated_Pt2_histo_name(int target_index, int
 {
     return histo_accrc+"Pt2_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+"_clean_interpolated";
 }
+
+// UNCORR
 
 std::string get_meanPt2_histo_name(int target_index)
 {
@@ -168,6 +185,130 @@ std::string get_broadening_Zh_histo_name(int target_index)
 std::string get_broadening_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
 {
     return "broadening_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin);
+}
+
+// ACC CORR
+
+std::string get_acc_meanPt2_histo_name(int target_index)
+{
+    return "acc_meanPt2_"+targets[target_index];
+}
+
+std::string get_acc_meanPt2_Q2_histo_name(int target_index)
+{
+    return "acc_meanPt2_Q2_"+targets[target_index];
+}
+
+std::string get_acc_meanPt2_Nu_histo_name(int target_index)
+{
+    return "acc_meanPt2_Nu_"+targets[target_index];
+}
+
+std::string get_acc_meanPt2_Zh_histo_name(int target_index)
+{
+    return "acc_meanPt2_Zh_"+targets[target_index];
+}
+
+std::string get_acc_meanPt2_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "acc_meanPt2_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin);
+}
+
+std::string get_acc_clean_meanPt2_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "acc_meanPt2_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+"_clean";
+}
+
+std::string get_acc_cleaninterpolated_meanPt2_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "acc_meanPt2_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+"_clean_interpolated";
+}
+
+std::string get_acc_broadening_histo_name(int target_index)
+{
+    return "acc_broadening_"+targets[target_index];
+}
+
+std::string get_acc_broadening_Q2_histo_name(int target_index)
+{
+    return "acc_broadening_Q2_"+targets[target_index];
+}
+
+std::string get_acc_broadening_Nu_histo_name(int target_index)
+{
+    return "acc_broadening_Nu_"+targets[target_index];
+}
+
+std::string get_acc_broadening_Zh_histo_name(int target_index)
+{
+    return "acc_broadening_Zh_"+targets[target_index];
+}
+
+std::string get_acc_broadening_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "acc_broadening_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin);
+}
+
+// ACC + RC CORR
+
+std::string get_accrc_meanPt2_histo_name(int target_index)
+{
+    return "accrc_meanPt2_"+targets[target_index];
+}
+
+std::string get_accrc_meanPt2_Q2_histo_name(int target_index)
+{
+    return "accrc_meanPt2_Q2_"+targets[target_index];
+}
+
+std::string get_accrc_meanPt2_Nu_histo_name(int target_index)
+{
+    return "accrc_meanPt2_Nu_"+targets[target_index];
+}
+
+std::string get_accrc_meanPt2_Zh_histo_name(int target_index)
+{
+    return "accrc_meanPt2_Zh_"+targets[target_index];
+}
+
+std::string get_accrc_meanPt2_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "accrc_meanPt2_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin);
+}
+
+std::string get_accrc_clean_meanPt2_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "accrc_meanPt2_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+"_clean";
+}
+
+std::string get_accrc_cleaninterpolated_meanPt2_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "accrc_meanPt2_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+"_clean_interpolated";
+}
+
+std::string get_accrc_broadening_histo_name(int target_index)
+{
+    return "accrc_broadening_"+targets[target_index];
+}
+
+std::string get_accrc_broadening_Q2_histo_name(int target_index)
+{
+    return "accrc_broadening_Q2_"+targets[target_index];
+}
+
+std::string get_accrc_broadening_Nu_histo_name(int target_index)
+{
+    return "accrc_broadening_Nu_"+targets[target_index];
+}
+
+std::string get_accrc_broadening_Zh_histo_name(int target_index)
+{
+    return "accrc_broadening_Zh_"+targets[target_index];
+}
+
+std::string get_accrc_broadening_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
+{
+    return "accrc_broadening_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin);
 }
 
 #endif
