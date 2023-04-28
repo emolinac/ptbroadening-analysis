@@ -11,7 +11,7 @@ ROOTLIBS    := $(shell root-config --libs) -lEG
 
 all: ${BIN}/integrate-phi-q2nuzhpt2 ${BIN}/bgreduction-pt2-q2nuzh ${BIN}/calculate-meanpt2 ${BIN}/calculate-broadening \
 	 ${BIN}/print-plot-meanpt2-q2nuzh ${BIN}/print-plot-meanpt2-q2-nu-zh-a13 ${BIN}/print-plot-broadening-q2nuzh \
-	 ${BIN}/print-plot-broadening-q2-nu-zh-a13 ${BIN}/print-plot-broadening-q2nuzha13
+	 ${BIN}/print-plot-broadening-q2-nu-zh-a13 ${BIN}/print-plot-broadening-q2nuzha13 ${BIN}/print-plot-acccorr-uncorr-comparison
 
 ${BIN}/integrate-phi-q2nuzhpt2: ${SRC}/integrate-phi-q2nuzhpt2.cpp
 	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/integrate-phi-q2nuzhpt2.cpp -o ${BIN}/integrate-phi-q2nuzhpt2 ${ROOTLIBS}
@@ -39,6 +39,9 @@ ${BIN}/print-plot-broadening-q2nuzha13: ${SRC}/print-plot-broadening-q2nuzha13.c
 
 ${BIN}/print-plot-broadening-q2-nu-zh-a13: ${SRC}/print-plot-broadening-q2-nu-zh-a13.cpp
 	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/print-plot-broadening-q2-nu-zh-a13.cpp -o ${BIN}/print-plot-broadening-q2-nu-zh-a13 ${ROOTLIBS}
+
+${BIN}/print-plot-acccorr-uncorr-comparison: ${SRC}/print-plot-acccorr-uncorr-comparison.cpp
+	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/print-plot-acccorr-uncorr-comparison.cpp -o ${BIN}/print-plot-acccorr-uncorr-comparison ${ROOTLIBS}
 
 clean:
 	rm ${BIN}/*

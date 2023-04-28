@@ -188,23 +188,37 @@ int main(int argc, char *argv[])
             for(int Nu_bin = 0 ; Nu_bin < N_Nu ; Nu_bin++)
             {
                 // Define broadening histo
-                h_broadening_Q2Nu[targ][Q2_bin][Nu_bin] = new TH1F("","",N_Zh,Zh_limits);
+                h_broadening_Q2Nu[0][targ][Q2_bin][Nu_bin] = new TH1F("","",N_Zh,Zh_limits);
+                h_broadening_Q2Nu[1][targ][Q2_bin][Nu_bin] = new TH1F("","",N_Zh,Zh_limits);
+                h_broadening_Q2Nu[2][targ][Q2_bin][Nu_bin] = new TH1F("","",N_Zh,Zh_limits);
 
                 // Obtain histos
-                h_meanPt2_Q2Nu[0] = (TH1F*) fin->Get(get_cleaninterpolated_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());
-                h_meanPt2_Q2Nu[1] = (TH1F*) fin->Get(get_cleaninterpolated_meanPt2_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[0][0] = (TH1F*) fin->Get(get_cleaninterpolated_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[0][1] = (TH1F*) fin->Get(get_cleaninterpolated_meanPt2_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[1][0] = (TH1F*) fin->Get(get_acc_cleaninterpolated_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[1][1] = (TH1F*) fin->Get(get_acc_cleaninterpolated_meanPt2_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[2][0] = (TH1F*) fin->Get(get_accrc_cleaninterpolated_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[2][1] = (TH1F*) fin->Get(get_accrc_cleaninterpolated_meanPt2_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
 
                 // Calculate broadening
-                h_broadening_Q2Nu[targ][Q2_bin][Nu_bin]->Add(h_meanPt2_Q2Nu[1],h_meanPt2_Q2Nu[0],1,-1);
+                h_broadening_Q2Nu[0][targ][Q2_bin][Nu_bin]->Add(h_meanPt2_Q2Nu[0][1],h_meanPt2_Q2Nu[0][0],1,-1);
+                h_broadening_Q2Nu[1][targ][Q2_bin][Nu_bin]->Add(h_meanPt2_Q2Nu[1][1],h_meanPt2_Q2Nu[1][0],1,-1);
+                h_broadening_Q2Nu[2][targ][Q2_bin][Nu_bin]->Add(h_meanPt2_Q2Nu[2][1],h_meanPt2_Q2Nu[2][0],1,-1);
 
                 // Write
                 fout->cd();
-                h_broadening_Q2Nu[targ][Q2_bin][Nu_bin]->Write(get_broadening_Zh_histo_name(targ+3+3, Q2_bin, Nu_bin).c_str());
+                h_broadening_Q2Nu[0][targ][Q2_bin][Nu_bin]->Write(get_broadening_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
+                h_broadening_Q2Nu[1][targ][Q2_bin][Nu_bin]->Write(get_acc_broadening_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
+                h_broadening_Q2Nu[2][targ][Q2_bin][Nu_bin]->Write(get_accrc_broadening_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
                 gROOT->cd();
 
                 // Reset
-                h_meanPt2_Q2Nu[0]->Reset();
-                h_meanPt2_Q2Nu[1]->Reset();
+                h_meanPt2_Q2Nu[0][0]->Reset();
+                h_meanPt2_Q2Nu[0][1]->Reset();
+                h_meanPt2_Q2Nu[1][0]->Reset();
+                h_meanPt2_Q2Nu[1][1]->Reset();
+                h_meanPt2_Q2Nu[2][0]->Reset();
+                h_meanPt2_Q2Nu[2][1]->Reset();
             }
         }
     }
