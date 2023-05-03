@@ -36,10 +36,10 @@ int main(int argc, char *argv[])
     // Obtain histos and graphs
     for(int targ = 0 ; targ < N_broadening ; targ++)
     {
-        h[targ]    = (TH1F*) fin->Get(get_broadening_histo_name(targ+3).c_str());
-        h_Q2[targ] = (TH1F*) fin->Get(get_broadening_Q2_histo_name(targ+3).c_str());
-        h_Nu[targ] = (TH1F*) fin->Get(get_broadening_Nu_histo_name(targ+3).c_str());
-        h_Zh[targ] = (TH1F*) fin->Get(get_broadening_Zh_histo_name(targ+3).c_str());
+        h[targ]    = (TH1F*) fin->Get(get_acc_broadening_histo_name(targ+3).c_str());
+        h_Q2[targ] = (TH1F*) fin->Get(get_acc_broadening_Q2_histo_name(targ+3).c_str());
+        h_Nu[targ] = (TH1F*) fin->Get(get_acc_broadening_Nu_histo_name(targ+3).c_str());
+        h_Zh[targ] = (TH1F*) fin->Get(get_acc_broadening_Zh_histo_name(targ+3).c_str());
 
         g[targ]    = new TGraphErrors(1);
         g_Q2[targ] = new TGraphErrors(N_Q2);

@@ -36,10 +36,10 @@ int main(int argc, char *argv[])
     // Obtain histos and graphs
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
-        h[targ]    = (TH1F*) fin->Get(get_meanPt2_histo_name(targ).c_str());
-        h_Q2[targ] = (TH1F*) fin->Get(get_meanPt2_Q2_histo_name(targ).c_str());
-        h_Nu[targ] = (TH1F*) fin->Get(get_meanPt2_Nu_histo_name(targ).c_str());
-        h_Zh[targ] = (TH1F*) fin->Get(get_meanPt2_Zh_histo_name(targ).c_str());
+        h[targ]    = (TH1F*) fin->Get(get_acc_meanPt2_histo_name(targ).c_str());
+        h_Q2[targ] = (TH1F*) fin->Get(get_acc_meanPt2_Q2_histo_name(targ).c_str());
+        h_Nu[targ] = (TH1F*) fin->Get(get_acc_meanPt2_Nu_histo_name(targ).c_str());
+        h_Zh[targ] = (TH1F*) fin->Get(get_acc_meanPt2_Zh_histo_name(targ).c_str());
 
         g[targ]    = new TGraphErrors(1);
         g_Q2[targ] = new TGraphErrors(N_Q2);

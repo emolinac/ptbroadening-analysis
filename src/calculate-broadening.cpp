@@ -193,8 +193,8 @@ int main(int argc, char *argv[])
                 h_broadening_Q2Nu[2][targ][Q2_bin][Nu_bin] = new TH1F("","",N_Zh,Zh_limits);
 
                 // Obtain histos
-                h_meanPt2_Q2Nu[0][0] = (TH1F*) fin->Get(get_cleaninterpolated_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());
-                h_meanPt2_Q2Nu[0][1] = (TH1F*) fin->Get(get_cleaninterpolated_meanPt2_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[0][0] = (TH1F*) fin->Get(get_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());
+                h_meanPt2_Q2Nu[0][1] = (TH1F*) fin->Get(get_meanPt2_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
                 h_meanPt2_Q2Nu[1][0] = (TH1F*) fin->Get(get_acc_cleaninterpolated_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());
                 h_meanPt2_Q2Nu[1][1] = (TH1F*) fin->Get(get_acc_cleaninterpolated_meanPt2_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
                 h_meanPt2_Q2Nu[2][0] = (TH1F*) fin->Get(get_accrc_cleaninterpolated_meanPt2_Zh_histo_name(targ  , Q2_bin, Nu_bin).c_str());

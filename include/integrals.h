@@ -2,6 +2,8 @@
 #include "constants.h"
 #include "utils.h"
 
+// Convention: Uncorrected calls histos without bg-treatment. All corrected results use their bg-treated versions
+
 void phi_integration(TH1F* h_Phi, TH1F* h_Pt2, int Pt2_bin)
 {
 	if(h_Phi==NULL)

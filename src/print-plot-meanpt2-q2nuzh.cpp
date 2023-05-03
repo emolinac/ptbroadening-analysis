@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         {
             for(int targ = 0 ; targ < N_targets ; targ++)
             {
-                h[Q2_bin][Nu_bin][targ] = (TH1F*) fin->Get(get_cleaninterpolated_meanPt2_Zh_histo_name(targ, Q2_bin, Nu_bin).c_str());
+                h[Q2_bin][Nu_bin][targ] = (TH1F*) fin->Get(get_acc_cleaninterpolated_meanPt2_Zh_histo_name(targ, Q2_bin, Nu_bin).c_str());
 
                 g[Q2_bin][Nu_bin][targ] = new TGraphErrors(N_Zh);
 

@@ -208,6 +208,66 @@ void set_latex_properties(TLatex* t_q2, TLatex* t_nu)
     t_nu->SetTextSize(0.05);  
 }
 
+void set_meanpt2_uncorr_acc_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.11,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.94,1.34);
+    mg->GetYaxis()->SetTitle("<P^{2}_{T}>_{uncorr}/<P^{2}_{T}>_{acc}");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_meanpt2_acc_accrc_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.11,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.94,1.34);
+    mg->GetYaxis()->SetTitle("<P^{2}_{T}>_{acc}/<P^{2}_{T}>_{acc+rc}");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broad_uncorr_acc_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.21,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.94,1.34);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T}_{uncorr}/ #DeltaP^{2}_{T}_{acc}");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
+void set_broad_acc_accrc_multigraph_properties(TMultiGraph* mg)
+{
+    // X axis
+    mg->GetXaxis()->SetRangeUser(0.21,1.);
+    mg->GetXaxis()->SetTitleOffset(1.1);
+    mg->GetXaxis()->SetTitle("z_{h}");
+    mg->GetXaxis()->CenterTitle();
+
+    // Y axis
+    mg->GetYaxis()->SetRangeUser(0.94,1.34);
+    mg->GetYaxis()->SetTitle("#Delta P^{2}_{T}_{acc}/ #DeltaP^{2}_{T}_{acc+rc}");
+    mg->GetYaxis()->CenterTitle();
+    mg->GetYaxis()->SetTitleOffset(1.4);
+}
+
 void set_meanpt2_q2nuzh_multigraph_properties(TMultiGraph* mg)
 {
     // X axis

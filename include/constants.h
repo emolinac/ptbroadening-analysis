@@ -13,7 +13,7 @@ std::string tables_dir  = "../output-tables/";
 std::string histo_data  = "data_";
 std::string histo_accf  = "accf_";
 std::string histo_acc   = "acc_data_";
-std::string histo_accrc = "accrc_data_";
+std::string histo_accrc = "corr_data_";
 
 std::string file_name_phi      = "phi-distributions.root";
 std::string file_name_pt2      = "pt2-distributions.root";
