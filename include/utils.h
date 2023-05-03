@@ -80,6 +80,11 @@ std::string get_accrccorr_Phi_histo_name(int target_index, int Q2_bin, int Nu_bi
     return histo_accrc+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin)+std::to_string(Pt2_bin);
 }
 
+std::string get_Pt2_ratio_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin)
+{
+    return "Pt2_acc_accrc_ratio_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin);
+}
+
 std::string get_Pt2_histo_name(int target_index, int Q2_bin, int Nu_bin, int Zh_bin)
 {
     return histo_data+"Pt2_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin)+std::to_string(Zh_bin);

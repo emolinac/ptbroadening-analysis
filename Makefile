@@ -12,7 +12,7 @@ ROOTLIBS    := $(shell root-config --libs) -lEG
 all: ${BIN}/integrate-phi-q2nuzhpt2 ${BIN}/bgreduction-pt2-q2nuzh ${BIN}/calculate-meanpt2 ${BIN}/calculate-broadening \
 	 ${BIN}/print-plot-meanpt2-q2nuzh ${BIN}/print-plot-meanpt2-q2-nu-zh-a13 ${BIN}/print-plot-broadening-q2nuzh \
 	 ${BIN}/print-plot-broadening-q2-nu-zh-a13 ${BIN}/print-plot-broadening-q2nuzha13 ${BIN}/print-plot-acccorr-uncorr-comparison \
-	 ${BIN}/print-plot-acccorr-accrccorr-comparison
+	 ${BIN}/print-plot-acccorr-accrccorr-comparison ${BIN}/rcfactors-fix
 
 ${BIN}/integrate-phi-q2nuzhpt2: ${SRC}/integrate-phi-q2nuzhpt2.cpp
 	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/integrate-phi-q2nuzhpt2.cpp -o ${BIN}/integrate-phi-q2nuzhpt2 ${ROOTLIBS}
@@ -46,6 +46,9 @@ ${BIN}/print-plot-acccorr-uncorr-comparison: ${SRC}/print-plot-acccorr-uncorr-co
 
 ${BIN}/print-plot-acccorr-accrccorr-comparison: ${SRC}/print-plot-acccorr-accrccorr-comparison.cpp
 	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/print-plot-acccorr-accrccorr-comparison.cpp -o ${BIN}/print-plot-acccorr-accrccorr-comparison ${ROOTLIBS}
+
+${BIN}/rcfactors-fix: ${SRC}/rcfactors-fix.cpp
+	${CXX} -I${INC} ${ROOTCFLAGS} ${SRC}/rcfactors-fix.cpp -o ${BIN}/rcfactors-fix ${ROOTLIBS}
 
 clean:
 	rm ${BIN}/*
