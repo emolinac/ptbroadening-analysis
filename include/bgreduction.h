@@ -6,7 +6,7 @@
 const double ChiSQndf_weight = 0.95;
 const double ndf_weight      = 0.05;
 const double max_ChiSQndf    = 10;  
-const double max_gauss_width = 0.35;
+const double max_gauss_width = 0.3;
 
 const int number_of_fits  = 15;
 
@@ -36,8 +36,8 @@ double calculate_weighted_pt2_cutoff(double *ChiSQndf_array, double *ndf_array, 
     for (int index = 0; index < array_size; index++) 
     {
         if (TMath::IsNaN(Pt2_cutoff_array[index]) || Pt2_cutoff_array[index] == 0) continue;
-        weight         = (TMath::Gaus(ChiSQndf_array[index], 1, 0.2) * ChiSQndf_weight + (ndf_array[index] / total_ndf) * ndf_weight) / (ChiSQndf_weight + ndf_weight);
-        total_weight  += weight;
+        weight          = (TMath::Gaus(ChiSQndf_array[index], 1, 0.2) * ChiSQndf_weight + (ndf_array[index] / total_ndf) * ndf_weight) / (ChiSQndf_weight + ndf_weight);
+        total_weight   += weight;
         sum_weight_Pt2 += weight * Pt2_cutoff_array[index];
     }
 
@@ -125,13 +125,12 @@ double obtain_pt2_cutoff(TH1F* h, TFile* fout, TString target, int Q2_bin, int N
 {
     int fits_completed = 0;
     double Pt2_fit_min = 0;
-    double Pt2_fit_max = 0;
+    double Pt2_fit_max = 3.;
 
     // Fits loop
     for (int i = 0; i < number_of_fits; i++) 
     {
         Pt2_fit_min = i * delta_Pt2;
-        Pt2_fit_max = 3.;
         TF1 *fit_func = new TF1("fit_func", "[0]*TMath::Exp(-x/[1])", Pt2_fit_min, Pt2_fit_max);
         fit_func->SetParameter(0, h->GetBinContent(1));
         fit_func->SetParameter(1, 0.2);
@@ -169,7 +168,7 @@ double obtain_pt2_cutoff(TH1F* h, TFile* fout, TString target, int Q2_bin, int N
 
     if(fits_completed==0)
     {
-        return 0;
+        return Pt2_fit_max;
     }
     else if(fits_completed==1)
     {
