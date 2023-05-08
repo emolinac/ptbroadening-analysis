@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     // Open files
     if(!check_file_existence(results_dir, file_name_pt2_bg)) return 1;
-    TFile* fin = new TFile((results_dir+file_name_pt2_bg).c_str());
+    TFile* fin = new TFile((results_dir+"rcfix_"+file_name_pt2_bg).c_str());
     
     TFile* fout = new TFile((results_dir+file_name_meanpt2).c_str(),"RECREATE");
     gROOT->cd();

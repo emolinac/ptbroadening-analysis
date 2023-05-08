@@ -32,7 +32,7 @@ int empty_histo(TH1F* h)
 }
 
 // Scans histo and returns the first empty bin it founds. If there are no empty bins a -1 value is returned.
-int first_empty_bin(TH1F* h)
+int get_first_empty_bin(TH1F* h)
 {
     for(Int_t bin = 1 ; bin <= h->GetNbinsX() ; bin++)
     {
@@ -314,6 +314,62 @@ std::string get_accrc_broadening_Zh_histo_name(int target_index)
 std::string get_accrc_broadening_Zh_histo_name(int target_index, int Q2_bin, int Nu_bin)
 {
     return "accrc_broadening_Zh_"+targets[target_index]+"_"+std::to_string(Q2_bin)+std::to_string(Nu_bin);
+}
+
+void get_neighbouring_histos(TH1F* h_Pt2_neighbours[3][3][3][2], TH1F* h_Pt2_ratio_neighbours[3][3][3], TFile* fin, int targ, int Q2_bin, int Nu_bin, int Zh_bin)
+{
+    for(int i = Q2_bin-1 ; i <= Q2_bin+1 ; i++)
+    {
+        for(int j = Nu_bin-1 ; j <= Nu_bin+1 ; j++)
+        {
+            for(int k = Zh_bin-1 ; k <= Zh_bin+1 ; k++)
+            {
+
+                h_Pt2_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)][0] = (TH1F*) fin->Get(get_acccorr_cleaninterpolated_Pt2_histo_name(targ,i,j,k).c_str());
+                h_Pt2_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)][1] = (TH1F*) fin->Get(get_accrccorr_cleaninterpolated_Pt2_histo_name(targ,i,j,k).c_str());
+                
+                if(h_Pt2_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)][0]==NULL||(i==Q2_bin&&j==Nu_bin&&k==Zh_bin))
+                {
+                    h_Pt2_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)][0]    = new TH1F("","",N_Pt2, Pt2_min, Pt2_max);
+                    h_Pt2_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)][1]    = new TH1F("","",N_Pt2, Pt2_min, Pt2_max);
+                    h_Pt2_ratio_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)] = new TH1F("","",N_Pt2, Pt2_min, Pt2_max);
+
+                    continue;
+                }
+
+                h_Pt2_ratio_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)] = new TH1F("","",N_Pt2, Pt2_min, Pt2_max);
+                h_Pt2_ratio_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)]->Divide(h_Pt2_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)][1],
+                                                                                         h_Pt2_neighbours[i-(Q2_bin-1)][j-(Nu_bin-1)][k-(Zh_bin-1)][0],1,1);
+            }
+        }
+    }
+
+    return;
+}
+
+double get_average_rccorr_impact(TH1F* h_Pt2_ratio_neighbours[3][3][3], int Q2_bin, int Nu_bin, int Zh_bin, int Pt2_bin)
+{
+    double sum = 0;
+    double N = 0;
+
+    for(int i = 0 ; i < 3 ; i++)
+    {
+        for(int j = 0 ; j < 3 ; j++)
+        {
+            for(int k = 0 ; k < 3 ; k++)
+            {
+                double content_n  = h_Pt2_ratio_neighbours[i][j][k]->GetBinContent(Pt2_bin-1);
+                double content_n1 = h_Pt2_ratio_neighbours[i][j][k]->GetBinContent(Pt2_bin);
+                double content_n2 = h_Pt2_ratio_neighbours[i][j][k]->GetBinContent(Pt2_bin+1);
+
+                if(content_n !=0){sum += content_n;  N++;}
+                if(content_n1!=0){sum += content_n1; N++;}
+                if(content_n2!=0){sum += content_n2; N++;}
+            }
+        }
+    }
+
+    return sum/N;
 }
 
 #endif
