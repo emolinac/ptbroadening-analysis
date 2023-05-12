@@ -45,7 +45,7 @@ const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 const int Zh_cutoff = 2;
 
 // RC analysis : difference cutoff
-const double difference_cutoff = 5.;
+const double difference_cutoff = 2.;
 
 // Targets information
 const int N_targets    = 6;
