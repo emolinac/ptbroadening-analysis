@@ -2,7 +2,21 @@
 #define UTILS_H
 
 #include "TH1F.h"
+#include "TSystem.h"
 #include "constants.h"
+
+// Check file existence
+int check_file_existence(std::string dir, std::string file_name)
+{
+    if(gSystem->AccessPathName((dir+file_name).c_str()))
+    {
+        std::cout<<file_name<<" not found!"<<std::endl;
+        std::cout<<"Check in "<<dir<<" for "<<file_name<<std::endl;
+        return 0;
+    }
+
+    return 1;
+}
 
 // Returns 1 if the histogram is empty.
 int empty_histo(TH1F* h)

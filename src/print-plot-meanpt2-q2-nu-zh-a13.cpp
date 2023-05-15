@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     gROOT->SetStyle("my");
 
     // Open file
+    if(!check_file_existence(results_dir, file_name_meanpt2)) return 1;
     TFile* fin = new TFile((results_dir+file_name_meanpt2).c_str());
-    if(fin==NULL){std::cout<<"No input file!"<<std::endl; return 1;}
 
     // Create a canvas
     TCanvas* c = new TCanvas("c","",800,600);
