@@ -54,16 +54,17 @@ int main(int argc, char* argv[])
                     gROOT->cd();
 
                     // Declare the fit function and fit!
-                    const int    first_empty_bin      = get_first_empty_bin(h_Pt2_ratio);
-                    const double Pt2_cutoff           = delta_Pt2*first_empty_bin;
-                    const int    stabilization_region = first_empty_bin/2;
+                    const int    last_corr_bin = get_first_uncorr_bin(h_Pt2_ratio) - 1;
+                    const double Pt2_cutoff    = delta_Pt2*last_corr_bin;
+
                     TF1* fit_func = new TF1("fit_func","[0]+[1]*TMath::Cos(x)",0,Pt2_cutoff);
+                    //TF1* fit_func = new TF1("fit_func","[0]+TMath::Exp(x*[1])",0,Pt2_cutoff);
 
                     h_Pt2_ratio->Fit("fit_func","RSEQ");
 
                     if(fit_func->GetChisquare()/fit_func->GetNDF()<2)
                     {
-                        for(int Pt2_bin = 1 ; Pt2_bin < stabilization_region ; Pt2_bin++)
+                        for(int Pt2_bin = 1 ; Pt2_bin <= last_corr_bin ; Pt2_bin++)
                         {
                             double fit_func_value = fit_func->Eval(h_Pt2_ratio->GetBinCenter(Pt2_bin));
                             double ratio_content  = h_Pt2_ratio->GetBinContent(Pt2_bin);
@@ -80,8 +81,8 @@ int main(int argc, char* argv[])
                     else
                     {
                         h_Pt2_ratio->Fit("fit_func","RSEQBL");
-
-                        for(int Pt2_bin = 1 ; Pt2_bin < stabilization_region ; Pt2_bin++)
+                        
+                        for(int Pt2_bin = 1 ; Pt2_bin <= last_corr_bin ; Pt2_bin++)
                         {
                             double fit_func_value = fit_func->Eval(h_Pt2_ratio->GetBinCenter(Pt2_bin));
                             double ratio_content  = h_Pt2_ratio->GetBinContent(Pt2_bin);

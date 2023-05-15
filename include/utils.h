@@ -45,6 +45,20 @@ int get_first_empty_bin(TH1F* h)
     return -1;
 }
 
+// Scans histo and returns the first uncorrected bin it founds (valid for acc + rc analysis)
+int get_first_uncorr_bin(TH1F* h)
+{
+    for(Int_t bin = 1 ; bin <= h->GetNbinsX() ; bin++)
+    {
+        if(h->GetBinContent(bin)==1)
+        {
+            return bin;
+        }
+    }
+
+    return -1;
+}
+
 // Use for meanPt2 measurements.
 void set_mean_and_meanerror(TH1F* h_Pt2, TH1F* h_meanPt2, int bin)
 {
