@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     // Visual misc
     TStyle* style = new TStyle("my","my");
-    style->SetGridColor(17);
+    style->SetGridColor(17); style->SetPadColor(0); style->SetCanvasColor(0);
     style->SetPadBorderMode(0);
     style->SetTickLength(0.002,"XY");
     style->SetTitleFont(62,"XY");
