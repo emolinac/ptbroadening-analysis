@@ -45,7 +45,7 @@ const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 const int Zh_cutoff = 5;
 
 // RC analysis : difference cutoff
-const double difference_cutoff = 2.;
+const double difference_cutoff = 3.;
 
 // Targets information
 const int N_targets    = 6;
@@ -54,7 +54,7 @@ const int N_broadening = 3;
 const double A13[N_targets] = { pow(2,1./3.) , pow(2,1./3.) , pow(2,1./3.) , pow(12,1./3.) , pow(55, 1./3.) , pow(208,1./3.) };
 
 std::string targets[N_targets]               = { "DC" , "DFe" , "DPb" , "C" , "Fe" , "Pb" };
-std::string broadening_targets[N_broadening] = { "C" , "Fe" , "Pb" };
+std::string broadening_targets[N_broadening] = { "C"  , "Fe"  , "Pb" };
 
 
 // Visual Settings

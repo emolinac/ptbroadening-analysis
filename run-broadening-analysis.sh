@@ -23,6 +23,7 @@ then
 fi
 
 # Compile the software
+make clean
 make
 
 cd ./bin
