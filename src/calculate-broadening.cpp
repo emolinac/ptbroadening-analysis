@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 
         // Write
         fout->cd();
-        h_broadening_Zh[targ]->Write(get_broadening_Zh_histo_name(targ+3+3).c_str());
+        h_broadening_Zh[targ]->Write(get_broadening_Zh_histo_name(targ+3).c_str());
         gROOT->cd();
 
         // Reset
@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
 
                 // Write
                 fout->cd();
-                h_broadening_Q2Nu[targ][Q2_bin][Nu_bin]->Write(get_broadening_Zh_histo_name(targ+3+3, Q2_bin, Nu_bin).c_str());
+                h_broadening_Q2Nu[targ][Q2_bin][Nu_bin]->Write(get_broadening_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
                 gROOT->cd();
 
                 // Reset
