@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
         th1f_to_tgrapherrors(hmeanpt2_ratio[targ], gmeanpt2_ratio[targ]);
         set_xerr_null(gmeanpt2_ratio[targ]);
 
-        mgmeanpt2->Add(gmeanpt2_ratio[targ],"APX");
+        mgmeanpt2->Add(gmeanpt2_ratio[targ],"APXL");
     }
 
     for(int targ = 0 ; targ < N_broadening ; targ++)
@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
         th1f_to_tgrapherrors(hbroad_ratio[targ], gbroad_ratio[targ]);
         set_xerr_null(gbroad_ratio[targ]);
 
-        mgbroad->Add(gbroad_ratio[targ],"APX");
+        mgbroad->Add(gbroad_ratio[targ],"APXL");
     }
 
     // Set Pads

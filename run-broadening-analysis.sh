@@ -45,6 +45,7 @@ cd ./bin
 
 # Print impact of correction
 ./print-plot-acccorr-accrccorr-comparison
+./print-plot-acccorr-uncorr-comparison
 
 # Plots
 #./print-plot-meanpt2-q2nuzh
