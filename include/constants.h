@@ -55,7 +55,6 @@ std::string broadening_targets[N_broadening] = { "C" , "Fe" , "Pb" };
 
 
 // Visual Settings
-//const int targ_colors[N_targets] = { 2 , 4 , 1 , 2 , 4 , 1 };
 const int targ_colors[N_targets] = { 801 , 870 , 882 , 801 , 870 , 882 };
 const int targ_marker[N_targets] = { 24 , 24 , 24 , 20 , 20 , 20 };
 
