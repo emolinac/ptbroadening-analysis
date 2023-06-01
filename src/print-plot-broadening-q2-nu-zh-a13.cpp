@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         g_Zh[targ]->SetMarkerColor(targ_colors[targ]);
         g_Zh[targ]->SetLineColor(targ_colors[targ]);
         set_xerr_null(g_Zh[targ]);
-        //shift_x(g_Zh[targ], shift_x_zh[targ], N_Zh);
+        shift_x(g_Zh[targ], shift_x_zh[targ], N_Zh);
 
         // Customize A13 graph
         g[targ]->SetMarkerStyle(targ_marker[targ + 3]);

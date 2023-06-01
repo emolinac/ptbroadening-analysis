@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
                 set_xerr_null(g[Q2_bin][Nu_bin][targ]);
 
                 // Slightly shift according to target
-                shift_x(g[Q2_bin][Nu_bin][targ], shift_x_zh[targ]);
+                shift_x(g[Q2_bin][Nu_bin][targ], shift_x_zh_big[targ]);
 
                 //Slightly shift according to Nu bin
                 shift_x(g[Q2_bin][Nu_bin][targ], shift_x_zh_compact[Q2_bin]);
