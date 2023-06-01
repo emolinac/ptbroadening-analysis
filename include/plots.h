@@ -35,6 +35,14 @@ double pad_Y2[3][3] = {{1                        , 1                        , 1 
 			           {bottom_height+med_height , bottom_height+med_height , bottom_height+med_height},
 			           {bottom_height            , bottom_height            , bottom_height           }};
 
+double pad_X1_compact[3] = {0 , lp_length , lp_length+cp_length};
+
+double pad_X2_compact[3] = {lp_length , lp_length+cp_length , 1};
+
+double pad_Y1_compact[3] = { 0 , 0 , 0 };
+
+double pad_Y2_compact[3] = { 1 , 1 , 1 };
+
 double b_margins[3][3] = {{0             , 0             , 0            },
 			              {0             , 0             , 0            },
 			              {bottom_margin , bottom_margin , bottom_margin}};
@@ -50,6 +58,14 @@ double l_margins[3][3] = {{lp_leftmargin, 0, 0 },
 double r_margins[3][3] = {{0, 0, rp_rightmargin },
 			              {0, 0, rp_rightmargin },
 			              {0, 0, rp_rightmargin }};
+
+double b_margins_compact[3] = {bottom_margin , bottom_margin , bottom_margin };
+ 
+double t_margins_compact[3] = {up_margin     , up_margin     , up_margin     };
+ 
+double l_margins_compact[3] = {lp_leftmargin , 0             , 0             };
+
+double r_margins_compact[3] = {0             , 0             , rp_rightmargin};
 
 // Functions
 void set_xerr_null(TGraphErrors* g, int Npoints = N_Zh)
@@ -174,12 +190,49 @@ void th1f_to_tgrapherrors(TH1F* h, TGraphErrors* g)
     return;
 }
 
+void th1f_to_tgrapherrors_zh(TH1F* h, TGraphErrors* g)
+{
+    const int Nbins = h->GetNbinsX();
+    double X[Nbins];
+    double Y[Nbins];
+    double Xerr[Nbins];
+    double Yerr[Nbins];
+
+    // Obtain coordinates and errors
+    for(int bin = 1 ; bin <= Nbins ; bin++)
+    {
+        X[bin-1]    = h->GetBinCenter(bin);
+        Y[bin-1]    = h->GetBinContent(bin);
+        Xerr[bin-1] = (h->GetBinWidth(bin)/2.);
+        Yerr[bin-1] = h->GetBinError(bin);
+    }
+
+    // Set coordinates and errors to graph
+    for(int point = Zh_cutoff ; point < Nbins ; point++)
+    {
+        g->SetPoint(point, X[point], Y[point]);
+        g->SetPointError(point, Xerr[point], Yerr[point]);
+    }
+
+    return;
+}
+
 void set_pad_attributes(TPad* p, int Q2_bin, int Nu_bin)
 {
     p->SetBottomMargin(b_margins[Q2_bin][Nu_bin]);
     p->SetTopMargin(t_margins[Q2_bin][Nu_bin]);
     p->SetLeftMargin(l_margins[Q2_bin][Nu_bin]);
     p->SetRightMargin(r_margins[Q2_bin][Nu_bin]);
+    p->SetGridx(1);
+    p->SetGridy(1);
+}
+
+void set_pad_attributes(TPad* p, int bin)
+{
+    p->SetBottomMargin(b_margins_compact[bin]);
+    p->SetTopMargin(t_margins_compact[bin]);
+    p->SetLeftMargin(l_margins_compact[bin]);
+    p->SetRightMargin(r_margins_compact[bin]);
     p->SetGridx(1);
     p->SetGridy(1);
 }
@@ -206,6 +259,13 @@ void set_latex_properties(TLatex* t_q2, TLatex* t_nu)
     t_nu->SetTextAlign(22);
     t_nu->SetTextFont(62);
     t_nu->SetTextSize(0.05);  
+}
+
+void set_latex_properties(TLatex* t)
+{
+    t->SetTextAlign(22);
+    t->SetTextFont(62);
+    t->SetTextSize(0.05);  
 }
 
 void set_meanpt2_q2nuzh_multigraph_properties(TMultiGraph* mg)
@@ -301,7 +361,7 @@ void set_broadening_q2nuzha13_multigraph_properties(TMultiGraph* mg)
 void set_broadening_q2nuzh_multigraph_properties(TMultiGraph* mg)
 {
     // X axis
-    mg->GetXaxis()->SetRangeUser(0.11,1.);
+    mg->GetXaxis()->SetRangeUser(0.21,1.);
     mg->GetXaxis()->SetTitleOffset(1.1);
     mg->GetXaxis()->SetTitle("z_{h}");
     mg->GetXaxis()->CenterTitle();
