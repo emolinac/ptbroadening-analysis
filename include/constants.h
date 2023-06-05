@@ -44,8 +44,10 @@ const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 // Integrations of Zh starts at Zh = 0.2
 const int Zh_cutoff = 5;
 
-// RC analysis : difference cutoff
+// RC analysis
 const double difference_cutoff = 1.;
+
+std::string fit_options[3] = {"RSEQM","RSEQLM","RSEQIM"/*,"RSEQWLM","RSEQIM"*/};
 
 // Targets information
 const int N_targets    = 6;

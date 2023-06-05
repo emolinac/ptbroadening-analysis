@@ -262,7 +262,7 @@ void set_broad_acc_accrc_multigraph_properties(TMultiGraph* mg)
     mg->GetXaxis()->CenterTitle();
 
     // Y axis
-    mg->GetYaxis()->SetRangeUser(0.94,1.34);
+    mg->GetYaxis()->SetRangeUser(0.9,1.34);
     mg->GetYaxis()->SetTitle("#Delta P^{2}_{T}_{acc}/ #DeltaP^{2}_{T}_{acc+rc}");
     mg->GetYaxis()->CenterTitle();
     mg->GetYaxis()->SetTitleOffset(1.4);

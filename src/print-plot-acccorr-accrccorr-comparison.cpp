@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
         th1f_to_tgrapherrors(hbroad_ratio[targ], gbroad_ratio[targ]);
         set_xerr_null(gbroad_ratio[targ]);
 
-        mgbroad->Add(gbroad_ratio[targ],"APXL");
+        mgbroad->Add(gbroad_ratio[targ],"APL");
     }
 
     // Set Pads

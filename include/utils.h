@@ -2,6 +2,8 @@
 #define UTILS_H
 
 #include "TH1F.h"
+#include "TF1.h"
+#include "TMath.h"
 #include "TSystem.h"
 #include "constants.h"
 
@@ -59,6 +61,90 @@ int get_first_uncorr_bin(TH1F* h)
     return -1;
 }
 
+// Set the parameters of the best fit to function
+void set_best_fit_parameters(TF1* function, TH1F* h)
+{
+    // Determine number of differen fits
+    const int n_fits = sizeof(fit_options)/sizeof(std::string);
+
+    // Declare array that stores how close to one iis the goodness of fit
+    double discriminator[n_fits];
+
+    // Fit
+    for(int i = 0 ; i < n_fits ; i++)
+    {
+        h->Fit(function, (fit_options[i]).c_str());   
+        discriminator[i] = TMath::Abs((function->GetChisquare()/function->GetNDF()) - 1);
+    }
+
+    // Determine which fit is the best
+    int best_fit_index = TMath::LocMin(n_fits, discriminator);
+
+    // Set the function with the parameters of the best fit
+    h->Fit(function, (fit_options[best_fit_index]).c_str());
+
+    return;
+}
+
+// Corrects the RC, as a function of Pt2, 
+void correct_rc_pt2_behavior(TF1* function, TH1F* h, int last_corr_bin)
+{
+    for(int Pt2_bin = 1 ; Pt2_bin <= last_corr_bin ; Pt2_bin++)
+    {
+        double function_value = function->Eval(h->GetBinCenter(Pt2_bin));
+        double ratio_content  = h->GetBinContent(Pt2_bin);
+        double difference     = 100*TMath::Abs(function_value-ratio_content)/function_value;
+        if(difference<difference_cutoff) continue;
+        else
+        {
+            h->SetBinContent(Pt2_bin,function_value);
+        }
+    }
+
+    return;
+}
+
+void remove_big_rc_corr(TH1F* h, int last_corr_bin)
+{
+    double min_corr = 0.6;
+    double max_corr = 1.4;
+
+    for (int Pt2_bin = 1 ; Pt2_bin <= last_corr_bin ; Pt2_bin++)
+    {
+        if(h->GetBinContent(Pt2_bin)<min_corr||h->GetBinContent(Pt2_bin)>max_corr)
+        {
+            double sum = 0;
+            double N   = 0;
+
+            // Calculate average of neighbouring N points
+            const int lim = TMath::Min(Pt2_bin + 2, last_corr_bin);
+            for(int i = Pt2_bin - 2 ; i < lim ; i++)
+            {
+                if(h->GetBinContent(i)>min_corr&&h->GetBinContent(i)<max_corr)
+                {
+                    sum += h->GetBinContent(i);
+                    N++;
+                }
+            }
+
+            if(N>0) h->SetBinContent(Pt2_bin, sum/N);
+        }
+    }
+
+    return;
+}
+
+
+// Uses the last RC corrected bin and assigns the rest of the tail that correction
+void assign_last_rc_to_tail(TH1F* h, int last_corr_bin, int first_empty_bin)
+{
+    for(int Pt2_bin = last_corr_bin+1 ; Pt2_bin < first_empty_bin ; Pt2_bin++)
+    {
+        h->SetBinContent(Pt2_bin, h->GetBinContent(Pt2_bin-1));
+    }
+
+    return;
+}
 // Use for meanPt2 measurements.
 void set_mean_and_meanerror(TH1F* h_Pt2, TH1F* h_meanPt2, int bin)
 {
