@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         {
             for(int targ = 0 ; targ < N_broadening ; targ++)
             {
-                h[Q2_bin][Nu_bin][targ] = (TH1F*) fin->Get(get_acc_broadening_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
+                h[Q2_bin][Nu_bin][targ] = (TH1F*) fin->Get(get_accrc_broadening_Zh_histo_name(targ+3, Q2_bin, Nu_bin).c_str());
 
                 g[Q2_bin][Nu_bin][targ] = new TGraphErrors(N_Zh);
 

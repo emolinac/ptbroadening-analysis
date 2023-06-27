@@ -7,6 +7,7 @@
 #include "TGraphErrors.h"
 #include "TStyle.h"
 #include "TLine.h"
+#include "TLegend.h"
 #include "utils.h"
 #include "plots.h"
 
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
     style->SetTickLength(0.002,"XY");
     style->SetTitleFont(62,"XY");
     style->SetTitleSize(0.04,"XY");
+    style->SetLegendFillColor(0);
     gROOT->SetStyle("my");
 
     // Create a canvas
@@ -103,7 +105,7 @@ int main(int argc, char* argv[])
         th1f_to_tgrapherrors(hbroad_ratio[targ], gbroad_ratio[targ]);
         set_xerr_null(gbroad_ratio[targ]);
 
-        mgbroad->Add(gbroad_ratio[targ],"APL");
+        mgbroad->Add(gbroad_ratio[targ],"APXL");
     }
 
     // Set Pads
@@ -127,12 +129,24 @@ int main(int argc, char* argv[])
     c->Print("../output-plots/acc-impact-meanpt2.png");
     c->cd();
 
-    // Draw braodening Plots
+    // Draw broadening Plots
     p_broad->Draw();
     p_broad->cd();
 
     mgbroad->Draw("A");
     set_broad_uncorr_acc_multigraph_properties(mgbroad);
+
+    // Draw TLegend with target info
+    TLegend* target_legend = new TLegend(p_broad->GetLeftMargin(),1-(p_broad->GetTopMargin()+0.14),p_broad->GetLeftMargin()+0.28,1-p_broad->GetTopMargin(),"","NDC");
+    target_legend->SetFillStyle(0);
+    target_legend->SetBorderSize(0);
+
+    target_legend->AddEntry(gbroad_ratio[0],"C" , "p");
+    target_legend->AddEntry(gbroad_ratio[1],"Fe", "p");
+    target_legend->AddEntry(gbroad_ratio[2],"Pb", "p");
+    
+    target_legend->Draw("SAME");
+    
     c->Print("../output-plots/acc-impact-broadening.pdf");
     c->Print("../output-plots/acc-impact-broadening.png");
     c->cd();

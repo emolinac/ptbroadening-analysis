@@ -67,6 +67,8 @@ double obtain_interpolated_pt2_bin_error(double x, double prev_bin_error, double
 
 void obtain_bgreducted_pt2(TH1F* h, double cutoff)
 {
+    if(cutoff==0) return;
+    
     for(int Pt2_bin = 1 ; Pt2_bin <= h->GetNbinsX() ; Pt2_bin++)
     {
         if(h->GetBinCenter(Pt2_bin)>cutoff)
