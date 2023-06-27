@@ -2,7 +2,7 @@ BIN := ./bin
 INC := ./include
 SRC := ./src
 
-CXX := g++ -std=c++17
+CXX := g++
 CFLAGS := -Wall -g
 
 ROOTCFLAGS  := $(shell root-config --cflags)
