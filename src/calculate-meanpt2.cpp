@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     // Instrumental histos
     TH1F* h_Pt2_integral = new TH1F("","",N_Pt2,Pt2_min,Pt2_max);
     TH1F* h_Pt2          = new TH1F("","",N_Pt2,Pt2_min,Pt2_max);
-    TH1F* h_Pt2_vars[3];
+    TH1F* h_Pt2_vars;
 
     h_Pt2_integral->Sumw2();
     
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     TH1F* h_meanPt2_Q2[N_targets];
     TH1F* h_meanPt2_Nu[N_targets];
     TH1F* h_meanPt2_Zh[N_targets];
-    TH1F* h_meanPt2_Q2Nu[N_targets][3];
+    TH1F* h_meanPt2_Q2Nu[N_targets];
 
     // meanPt2 (used for A13 dependence)
     for(int targ = 0 ; targ < N_targets ; targ++)
@@ -131,10 +131,8 @@ int main(int argc, char *argv[])
     for(int targ = 0 ; targ < N_targets ; targ++)
     {
         // Define histos
-        h_meanPt2_Q2Nu[targ][0] = new TH1F("","",N_Zh,Zh_limits);
-        h_meanPt2_Q2Nu[targ][1] = new TH1F("","",N_Zh,Zh_limits);
-        h_meanPt2_Q2Nu[targ][2] = new TH1F("","",N_Zh,Zh_limits);
-
+        h_meanPt2_Q2Nu[targ] = new TH1F("","",N_Zh,Zh_limits);
+        
         for(int Q2_bin = 0 ; Q2_bin < N_Q2 ; Q2_bin++)
         {
             for(int Nu_bin = 0 ; Nu_bin < N_Nu ; Nu_bin++)
@@ -142,27 +140,19 @@ int main(int argc, char *argv[])
                 for(int Zh_bin = 0 ; Zh_bin < N_Zh ; Zh_bin++)
                 {
                     // Obtain histos
-                    h_Pt2_vars[0] = (TH1F*) fin->Get(get_acccorr_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
-                    h_Pt2_vars[1] = (TH1F*) fin->Get(get_acccorr_clean_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
-                    h_Pt2_vars[2] = (TH1F*) fin->Get(get_acccorr_cleaninterpolated_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
+                    h_Pt2_vars = (TH1F*) fin->Get(get_acccorr_cleaninterpolated_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
 
                     // Assign content and error
-                    set_mean_and_meanerror(h_Pt2_vars[0], h_meanPt2_Q2Nu[targ][0], Zh_bin + 1);
-                    set_mean_and_meanerror(h_Pt2_vars[1], h_meanPt2_Q2Nu[targ][1], Zh_bin + 1);
-                    set_mean_and_meanerror(h_Pt2_vars[2], h_meanPt2_Q2Nu[targ][2], Zh_bin + 1);
+                    set_mean_and_meanerror(h_Pt2_vars, h_meanPt2_Q2Nu[targ], Zh_bin + 1);
                 }
                 
                 // Write the histos
                 fout->cd();
-                h_meanPt2_Q2Nu[targ][0]->Write(get_meanPt2_Zh_histo_name(targ,Q2_bin,Nu_bin).c_str());
-                h_meanPt2_Q2Nu[targ][1]->Write(get_clean_meanPt2_Zh_histo_name(targ,Q2_bin,Nu_bin).c_str());
-                h_meanPt2_Q2Nu[targ][2]->Write(get_cleaninterpolated_meanPt2_Zh_histo_name(targ,Q2_bin,Nu_bin).c_str());
+                h_meanPt2_Q2Nu[targ]->Write(get_cleaninterpolated_meanPt2_Zh_histo_name(targ,Q2_bin,Nu_bin).c_str());
                 gROOT->cd();
 
                 // Reset histos
-                h_meanPt2_Q2Nu[targ][0]->Reset();
-                h_meanPt2_Q2Nu[targ][1]->Reset();
-                h_meanPt2_Q2Nu[targ][2]->Reset();
+                h_meanPt2_Q2Nu[targ]->Reset();
             }
         }       
     }
