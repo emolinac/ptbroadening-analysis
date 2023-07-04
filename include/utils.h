@@ -106,8 +106,9 @@ void correct_rc_pt2_behavior(TF1* function, TH1F* h, int last_corr_bin)
 
 void remove_big_rc_corr(TH1F* h, int last_corr_bin)
 {
-    double min_corr = 0.6;
-    double max_corr = 1.4;
+    const int neighbours = 20;
+    double min_corr = 0.8;
+    double max_corr = 1.2;
 
     for (int Pt2_bin = 1 ; Pt2_bin <= last_corr_bin ; Pt2_bin++)
     {
@@ -117,8 +118,8 @@ void remove_big_rc_corr(TH1F* h, int last_corr_bin)
             double N   = 0;
 
             // Calculate average of neighbouring N points
-            const int lim = TMath::Min(Pt2_bin + 2, last_corr_bin);
-            for(int i = Pt2_bin - 2 ; i < lim ; i++)
+            const int lim = TMath::Min(Pt2_bin + neighbours, last_corr_bin);
+            for(int i = Pt2_bin - neighbours ; i < lim ; i++)
             {
                 if(h->GetBinContent(i)>min_corr&&h->GetBinContent(i)<max_corr)
                 {
@@ -134,6 +135,49 @@ void remove_big_rc_corr(TH1F* h, int last_corr_bin)
     return;
 }
 
+void remove_big_rc_corr(TH1F* h, int last_corr_bin, double base_corr)
+{
+    const int neighbours = 7;
+    double min_corr = base_corr - 0.1;
+    double max_corr = base_corr + 0.1;
+
+    for (int Pt2_bin = 1 ; Pt2_bin <= last_corr_bin ; Pt2_bin++)
+    {
+        if(h->GetBinContent(Pt2_bin)<min_corr||h->GetBinContent(Pt2_bin)>max_corr)
+        {
+            double sum = 0;
+            double N   = 0;
+
+            // Calculate average of neighbouring N points
+            const int lim = TMath::Min(Pt2_bin + neighbours, last_corr_bin);
+            for(int i = Pt2_bin - neighbours ; i < lim ; i++)
+            {
+                if(h->GetBinContent(i)>min_corr&&h->GetBinContent(i)<max_corr)
+                {
+                    sum += h->GetBinContent(i);
+                    N++;
+                }
+            }
+
+            if(N>0) h->SetBinContent(Pt2_bin, sum/N);
+        }
+    }
+
+    return;
+}
+
+double get_base_corr(TH1F* h, int last_corr_bin)
+{
+    double sum = 0;
+    double N   = 0;
+    for(int bin = 1 ; bin <= last_corr_bin ; bin++)
+    {
+        sum += h->GetBinContent(bin);
+        N++;
+    }
+
+    return sum/N;
+}
 
 // Uses the last RC corrected bin and assigns the rest of the tail that correction
 void assign_last_rc_to_tail(TH1F* h, int last_corr_bin, int first_empty_bin)
