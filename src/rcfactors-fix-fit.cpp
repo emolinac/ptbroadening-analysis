@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
                     h_Pt2[1][1] = (TH1F*) fin->Get(get_acccorr_cleaninterpolated_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
                     h_Pt2[1][2] = (TH1F*) fin->Get(get_accrccorr_cleaninterpolated_Pt2_histo_name(targ,Q2_bin,Nu_bin,Zh_bin).c_str());
                     
-                    h_Pt2_ratio->Divide(h_Pt2[0][2],h_Pt2[0][1],1,1);
+                    h_Pt2_ratio->Divide(h_Pt2[0][2],h_Pt2[0][1],1,1,"B");
 
                     // Write the original ratio
                     fout->cd();
