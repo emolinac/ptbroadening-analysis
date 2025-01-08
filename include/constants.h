@@ -42,7 +42,7 @@ const float Phi_max   =  180.;
 const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 
 // Integrations of Zh starts at Zh = 0.2
-const int Zh_cutoff = 2;
+const int Zh_cutoff = 3;
 
 // RC analysis
 const double difference_cutoff = 1.;
