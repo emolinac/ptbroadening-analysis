@@ -42,7 +42,7 @@ const float Phi_max   =  180.;
 const float delta_Phi = (Phi_max-Phi_min)/N_Phi;
 
 // Integrations of ZH starts at Zh = 0.2
-const int Zh_cutoff = 2;
+const int Zh_cutoff = 3;
 
 // Targets information
 const int N_targets    = 6;
